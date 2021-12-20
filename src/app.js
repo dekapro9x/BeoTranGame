@@ -12,8 +12,49 @@ var EtroGameLayer = cc.Layer.extend({
   //Hàm này xử lý logic cả game:
   update: function () {},
   setActionButtonControl: function () {
-      
+    var listener1 = cc.EventListener.create({
+      event: cc.EventListener.TOUCH_ONE_BY_ONE,
+      swallowTouches: true,
+      onTouchBegan: function (touch, event) {
+        var target = event.getCurrentTarget();
+        var locationInNode = target.convertToNodeSpace(touch.getLocation());
+        var s = target.getContentSize();
+        var rect = cc.rect(0, 0, s.width, s.height);
+        if (cc.rectContainsPoint(rect, locationInNode)) {
+          target.parent.checkButton(target);
+          target.opacity = 180;
+          return true;
+        }
+        return false;
+      }});
   },
+  onTouchEnded: function (touch, event) {
+    MOVE_PLAYER = false;
+    gamePlayer.getAnimation().play("stop");
+  }, 
+  checkButton: function(target){
+    if(target === this.left){
+      MOVE_PLAYER = true;
+      KEY = cc.KEY.left;
+    }
+    if(target === this.right){
+      MOVE_PLAYER = true;
+      KEY = cc.KEY.right;
+    }
+    if(target === this.up){
+      MOVE_PLAYER = true;
+      KEY = cc.KEY.up;
+    }
+    if(target === this.down){
+      MOVE_PLAYER = true;
+      KEY = cc.KEY.down;
+    }
+    if(target === this.fire){
+      MOVE_PLAYER = true;
+      KEY = cc.KEY.space;
+    }
+  }
+  
 });
 
 //Hiển thị tiêu đề và tên game:
