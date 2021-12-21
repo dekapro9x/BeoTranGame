@@ -10,6 +10,7 @@ var EtroGameLayer = cc.Layer.extend({
   },
   //Hàm này xử lý logic cả game:
   update: function () {},
+  onTouchStartGame: function () {},
   setActionButtonControl: function () {
     var listener1 = cc.EventListener.create({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
@@ -54,7 +55,9 @@ var EtroGameLayer = cc.Layer.extend({
       KEY = cc.KEY.space;
     }
   },
-  renderUITest: function () {},
+  renderUITest: function () {
+   
+  },
 });
 
 //Hàm main:
@@ -80,11 +83,7 @@ function renderLabelTitleNameGame(that) {
       cc.tintTo(3, 238, 130, 238)
     )
   );
-  labelNameGame.runAction(
-    cc.spawn(
-      cc.tintTo(2.5, 255, 0, 0)
-    )
-  );
+  labelNameGame.runAction(cc.spawn(cc.tintTo(2.5, 255, 0, 0)));
   that.addChild(labelNameGame, 0);
 }
 
@@ -101,13 +100,14 @@ function renderImgBackground(that) {
     rotation: 180,
   });
   //Gán thuộc tính khởi tạo:
-  that.spriteEarth.setScale(0.2,null);
+  that.spriteEarth.setScale(0.2, null);
   //Gắn hành động:
   that.spriteEarth.runAction(
     cc.sequence(cc.rotateTo(2, 0), cc.scaleTo(2, 0.5, 0.5))
   );
   that.addChild(that.spriteEarth, 0);
 }
+
 //Hiển thị nút Play Game:
 function renderButtonControlPlayGame(that) {
   const sizeBtn = 0.06;
@@ -155,12 +155,23 @@ function renderButtonControlPlayGame(that) {
   that.setActionButtonControl();
 }
 
-function renderButtonStartPlayGame(that){
-  that.startGame = cc.Sprite.create(res.StartGameBnt_png);
-  that.startGame.y = 120;
-  that.startGame.x = 850;
-  that.startGame.scale = 0.2;
-  that.addChild(that.startGame, 0);
+//Nút bắt đầu Game:
+function renderButtonStartPlayGame(that) {
+  const startGame = cc.Sprite.create(res.StartGameBnt_png);
+  startGame.y = 120;
+  startGame.x = 850;
+  startGame.scale = 0.2;
+  const labelStartGame = new cc.LabelTTF();
+  labelStartGame.setFontSize(35);
+  labelStartGame.setFontName("Arial");
+  labelStartGame.setString("Start");
+  labelStartGame.x = 850;
+  labelStartGame.y = 60;
+  labelStartGame.runAction(cc.spawn(cc.tintTo(2, 255, 99, 71)));
+  const labelTouchStartGame = cc.Layer.create();
+  labelTouchStartGame.addChild(startGame, 0);
+  labelTouchStartGame.addChild(labelStartGame, 0);
+  that.addChild(labelTouchStartGame, 0);
 }
 
 var BeoTranGameInit = cc.Scene.extend({
@@ -170,10 +181,6 @@ var BeoTranGameInit = cc.Scene.extend({
     this.addChild(layer);
   },
 });
-
-
-
-
 
 // ##############################################################################################
 // ##############################################################################################
