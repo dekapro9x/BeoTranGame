@@ -64,7 +64,7 @@ function main(that) {
 //Hiển thị tiêu đề và tên game:
 function renderLabelTitleNameGame(that) {
   const size = cc.winSize;
-  var labelNameGame = new cc.LabelTTF();
+  const labelNameGame = new cc.LabelTTF();
   labelNameGame.setFontSize(40);
   labelNameGame.setFontName("Arial");
   labelNameGame.setString("Play To Juggling Earth");
