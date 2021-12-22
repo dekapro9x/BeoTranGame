@@ -2,12 +2,67 @@ var DemoTest = cc.Scene.extend({
   ctor: function () {
     this._super();
     this.init();
-    // renderImg(this);
-    renderAnimationsTextColorRun(this);
+    const LayerEventHandleDemo = new GameClassLayerDemoEventHandle();
+    this.addChild(LayerEventHandleDemo);
+    renderAnimationsZoomImg(this);
+    //Demo:
+    demoRun(this);
+  },
+  init: function () {
+    if ("mouse" in cc.sys.capabilities) {
+      cc.eventManager.addListener(
+        {
+          event: cc.EventListener.MOUSE,
+          onMouseMove: function (event) {
+            // console.log("Nghe chuột.... ", event);
+            if (event.getButton() == cc.EventMouse.BUTTON_LEFT)
+              event.getCurrentTarget().processEvent(event);
+          },
+        },
+        this
+      );
+    }
+    if (cc.sys.capabilities.hasOwnProperty("keyboard")) {
+      cc.eventManager.addListener(
+        {
+          event: cc.EventListener.KEYBOARD,
+          onKeyPressed: function (key, event) {
+            console.log("Nghe bàn phím:", key);
+            console.log("Nghe sự kiện bàn phím:", key);
+            MW.KEYS[key] = true;
+          },
+          onKeyReleased: function (key, event) {
+            MW.KEYS[key] = false;
+          },
+        },
+        this
+      );
+    }
+    if (cc.sys.capabilities.hasOwnProperty("touches")) {
+      cc.eventManager.addListener(
+        {
+          prevTouchId: -1,
+          event: cc.EventListener.TOUCH_ALL_AT_ONCE,
+          onTouchesMoved: function (touches, event) {
+            console.log("Cái này làm gì méo hiểu?");
+            var touch = touches[0];
+            if (this.prevTouchId != touch.getID())
+              this.prevTouchId = touch.getID();
+            else event.getCurrentTarget().processEvent(touches[0]);
+          },
+        },
+        this
+      );
+    }
   },
 });
 
-// Hiển thị 1 ảnh:
+function demoRun(that) {
+  // renderImg(that);
+  // renderAnimationsTextColorRun(that);
+}
+
+//1.Hiển thị 1 ảnh:
 function renderImg(that) {
   const imagetest = cc.Sprite.create(res.TraiDat_png);
   imagetest.setPosition(0, 0); //=>Set vị trí tương đối của vật thể trong trục tọa độ x0y
@@ -17,7 +72,7 @@ function renderImg(that) {
   that.addChild(imagetest, 0);
 }
 
-//Chữ hiệu ứng màu:
+//2.Chữ hiệu ứng màu:
 function renderAnimationsTextColorRun(that) {
   const size = cc.winSize;
   const helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
@@ -30,4 +85,22 @@ function renderAnimationsTextColorRun(that) {
     )
   );
   that.addChild(helloLabel, 5);
+}
+
+//3.Hiển thị ảnh phóng to:
+function renderAnimationsZoomImg(that) {
+  const timeOut = 1000;
+  const size = cc.winSize;
+  const sprite = new cc.Sprite(res.TraiDat_png);
+  sprite.attr({
+    x: size.width / 2,
+    y: size.height / 2,
+    scale: 0.5,
+    rotation: 180,
+  });
+  setTimeout(() => {
+    console.log("renderAnimationsZoomImg Delay 1s")
+    sprite.runAction(cc.sequence(cc.rotateTo(2, 0), cc.scaleTo(2, 0.7, 0.7)));
+  }, timeOut);
+  that.addChild(sprite, 0);
 }

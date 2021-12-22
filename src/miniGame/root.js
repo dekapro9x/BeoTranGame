@@ -1,3 +1,4 @@
+
 var BeoTranMiniGameInitControlRoot = cc.Scene.extend({
   ctor: function () {
     this._super();
@@ -8,8 +9,7 @@ var BeoTranMiniGameInitControlRoot = cc.Scene.extend({
   },
 });
 
-
-function demoAll(that){
-const demo = new DemoTest();
-that.addChild(demo);
+function demoAll(that) {
+  const demo = new DemoTest();
+  that.addChild(demo);
 }

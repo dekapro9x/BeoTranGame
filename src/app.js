@@ -1,12 +1,8 @@
 var EtroGameLayer = cc.Layer.extend({
-  sprite: null,
   //Hàm khởi tạo giá trị ban đầu:
   ctor: function () {
     this._super();
     main(this);
-    // //Function Testing:
-    this.renderUITest();
-    testDemoFunctions(this);
   },
   //Hàm này xử lý logic cả game:
   update: function () {},
@@ -55,7 +51,6 @@ var EtroGameLayer = cc.Layer.extend({
       KEY = cc.KEY.space;
     }
   },
-  renderUITest: function () {},
 });
 
 //Hàm main:
@@ -179,55 +174,3 @@ var BeoTranGameInit = cc.Scene.extend({
     this.addChild(playToJugglingMiniGame);
   },
 });
-
-// ##############################################################################################
-// ##############################################################################################
-// ##############################################################################################
-//Hàm test thuộc tính và view:
-function testDemoFunctions(that) {
-  // renderTestImg(that);
-  // renderTestAnimations(that);
-}
-
-function renderTestImg(that) {
-  var image = cc.Sprite.create(res.TraiDat_png);
-  image.setPosition(0, 0); //=>Set vị trí tương đối của vật thể trong trục tọa độ x0y
-  image.setContentSize(cc.size(0, 0)); //=>Set kích thước
-  image.setScale(0.5, 0.5); //Set tỷ lệ so với vật thể gốc và có thể kéo vật thể méo theo trục x0y
-  image.setAnchorPoint(cc.p(0.5, 0.5)); //Set tâm vật thể theo thằng cha của nó (0,0) góc dưới trái, (1,1) góc trên phải.
-  that.addChild(image, 0);
-}
-
-function renderTestAnimations(that) {
-  const size = cc.winSize;
-  var closeItem = new cc.MenuItemImage(
-    res.CloseNormal_png,
-    res.CloseSelected_png,
-    function () {
-      cc.log("Menu is clicked!");
-    },
-    that
-  );
-  closeItem.attr({
-    x: size.width - 20,
-    y: 20,
-    anchorX: 0.5,
-    anchorY: 0.5,
-  });
-  var menu = new cc.Menu(closeItem);
-  menu.x = 0;
-  menu.y = 0;
-  that.addChild(menu, 1);
- 
-  //Ảnh hiệu hứng phóng to:
-  that.sprite = new cc.Sprite(res.HelloWorld_png);
-  that.sprite.attr({
-    x: size.width / 2,
-    y: size.height / 2,
-    scale: 0.5,
-    rotation: 180,
-  });
-  that.addChild(that.sprite, 0);
-  that.sprite.runAction(cc.sequence(cc.rotateTo(2, 0), cc.scaleTo(2, 1, 1)));
-  return true;
-}

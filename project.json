@@ -16,6 +16,7 @@
         "src/app.js",
         "src/miniGame/root.js",
         "src/miniGame/caro/CaroGame.js",
-        "src/miniGame/demo/index.js"
+        "src/miniGame/demo/index.js",
+        "src/miniGame/demo/LayerClass.js"
     ]
 }
