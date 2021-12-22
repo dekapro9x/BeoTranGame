@@ -4,9 +4,8 @@ var DemoTest = cc.Scene.extend({
     this.init();
     const LayerEventHandleDemo = new GameClassLayerDemoEventHandle();
     this.addChild(LayerEventHandleDemo);
-    renderAnimationsZoomImg(this);
     //Demo:
-    demoRun(this);
+    // demoRun(this);
   },
   init: function () {
     if ("mouse" in cc.sys.capabilities) {

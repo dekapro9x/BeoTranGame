@@ -5,11 +5,11 @@ var BeoTranMiniGameInitControlRoot = cc.Scene.extend({
     this.init();
     // const GameCaroStart = new GameCaroInit();
     // this.addChild(GameCaroStart, 0);
-    demoAll(this);
+    demoTestAll(this);
   },
 });
 
-function demoAll(that) {
+function demoTestAll(that) {
   const demo = new DemoTest();
   that.addChild(demo);
 }
