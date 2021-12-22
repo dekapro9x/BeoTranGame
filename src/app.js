@@ -4,7 +4,7 @@ var EtroGameLayer = cc.Layer.extend({
   ctor: function () {
     this._super();
     main(this);
-    //Function Testing:
+    // //Function Testing:
     this.renderUITest();
     testDemoFunctions(this);
   },
@@ -55,9 +55,7 @@ var EtroGameLayer = cc.Layer.extend({
       KEY = cc.KEY.space;
     }
   },
-  renderUITest: function () {
-   
-  },
+  renderUITest: function () {},
 });
 
 //Hàm main:
@@ -177,8 +175,8 @@ function renderButtonStartPlayGame(that) {
 var BeoTranGameInit = cc.Scene.extend({
   onEnter: function () {
     this._super();
-    var layer = new EtroGameLayer();
-    this.addChild(layer);
+    var playToJugglingMiniGame = new BeoTranMiniGameInitControlRoot();
+    this.addChild(playToJugglingMiniGame);
   },
 });
 
@@ -220,17 +218,7 @@ function renderTestAnimations(that) {
   menu.x = 0;
   menu.y = 0;
   that.addChild(menu, 1);
-  //Chữ hiệu ứng màu:
-  var helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
-  helloLabel.x = size.width / 2;
-  helloLabel.y = 0;
-  helloLabel.runAction(
-    cc.spawn(
-      cc.moveBy(2.5, cc.p(0, size.height - 40)),
-      cc.tintTo(2.5, 255, 125, 0)
-    )
-  );
-  that.addChild(helloLabel, 5);
+ 
   //Ảnh hiệu hứng phóng to:
   that.sprite = new cc.Sprite(res.HelloWorld_png);
   that.sprite.attr({

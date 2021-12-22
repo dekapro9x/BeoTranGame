@@ -1,5 +1,3 @@
-
-
 cc.game.onStart = function(){
     var sys = cc.sys;
     if(!sys.isNative && document.getElementById("cocosLoading")) 
