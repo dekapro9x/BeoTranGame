@@ -3,7 +3,8 @@ var DemoTest = cc.Scene.extend({
     this._super();
     this.init();
     const LayerEventHandleDemo = new GameClassLayerDemoEventHandle();
-    this.addChild(LayerEventHandleDemo);
+    renderImgBacDaChe(this);
+    this.addChild(LayerEventHandleDemo, 0);
   },
   init: function () {
     if ("mouse" in cc.sys.capabilities) {
@@ -52,4 +53,17 @@ var DemoTest = cc.Scene.extend({
       );
     }
   },
+  renderImgBaDaChe : function () {
+
+  },
 });
+
+//Hiển thị ảnh bác Đa chế:
+function renderImgBacDaChe(that) {
+  const imagetest = cc.Sprite.create(res.BacDa_png);
+  imagetest.setPosition(0, 0); //=>Set vị trí tương đối của vật thể trong trục tọa độ x0y
+  imagetest.setContentSize(cc.size(0, 0)); //=>Set kích thước
+  imagetest.setScale(1, 1); //Set tỷ lệ so với vật thể gốc và có thể kéo vật thể méo theo trục x0y
+  imagetest.setAnchorPoint(cc.p(0.5, 0.5)); //Set tâm vật thể theo thằng cha của nó (0,0) góc dưới trái, (1,1) góc trên phải.
+  that.addChild(imagetest, 0);
+}

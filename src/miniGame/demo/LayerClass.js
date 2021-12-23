@@ -6,7 +6,7 @@ var GameClassLayerDemoEventHandle = cc.Layer.extend({
     this._super();
     this.init();
     const that = this;
-    this.renderImgStartGameBnt();
+    this.renderImgSaoChoi();
     this.renderButtonStartGame();
     renderAnimationsZoomImg(this);
     const listenerEvent = cc.EventListener.create({
@@ -42,11 +42,11 @@ var GameClassLayerDemoEventHandle = cc.Layer.extend({
   SoundClicked: function () {},
   addSquares: function () {},
   generateDirection: function () {},
-  renderImgStartGameBnt: function () {
+  renderImgSaoChoi: function () {
     this.startGameBtn = cc.Sprite.create(res.StartGameBnt_png);
-    this.startGameBtn.setPosition(0, 0);
-    this.startGameBtn.setContentSize(cc.size(0, 0));
-    this.startGameBtn.setScale(0.75, 0.5);
+    this.startGameBtn.x = 873;
+    this.startGameBtn.y = 535;
+    this.startGameBtn.setScale(0.75, 0.7);
     this.startGameBtn.setAnchorPoint(cc.p(0.5, 0.5));
     this.addChild(this.startGameBtn, 0);
   },
@@ -91,30 +91,20 @@ var ButtonStart = cc.Layer.extend({
     const base = 10;
     const parsedX = parseInt(x, base);
     const parsedY = parseInt(y, base);
-    console.log("Vị trí ấn chuột:", x, y);
-    console.log("Tọa độ xác định:", parsedX, parsedY);
+    console.log(parsedX, parsedY);
     if (811 < parsedX && parsedX < 905 && 34 < parsedY && parsedY < 105) {
-      console.log("Run....????", this);
+      this.playMusicStartGame();
+    } else {
+      this.stopMusicStartGame();
     }
   },
+  playMusicStartGame: function () {
+    cc.audioEngine.playMusic(res.backGround_Music);
+  },
+  stopMusicStartGame: function () {
+    cc.audioEngine.stopMusic();
+  },
 });
-
-//3.Hiển thị ảnh phóng to:
-function renderAnimationsZoomImg(that) {
-  const timeOut = 1000;
-  const size = cc.winSize;
-  const sprite = new cc.Sprite(res.TraiDat_png);
-  sprite.attr({
-    x: size.width / 2,
-    y: size.height / 2,
-    scale: 0.5,
-    rotation: 180,
-  });
-  setTimeout(() => {
-    sprite.runAction(cc.sequence(cc.rotateTo(2, 0), cc.scaleTo(2, 0.7, 0.7)));
-  }, timeOut);
-  that.addChild(sprite, 0);
-}
 
 //1.Hiển thị 1 ảnh:
 function renderImg(that) {
@@ -143,18 +133,16 @@ function renderAnimationsTextColorRun(that) {
 
 //3.Hiển thị ảnh phóng to:
 function renderAnimationsZoomImg(that) {
-  const timeOut = 1000;
-  const size = cc.winSize;
+  const timeOut = 100;
   const sprite = new cc.Sprite(res.TraiDat_png);
   sprite.attr({
-    x: size.width / 2,
-    y: size.height / 2,
-    scale: 0.5,
+    x: 612,
+    y: 460,
+    scale: 0,
     rotation: 180,
   });
   setTimeout(() => {
-    console.log("renderAnimationsZoomImg Delay 1s");
-    sprite.runAction(cc.sequence(cc.rotateTo(2, 0), cc.scaleTo(2, 0.7, 0.7)));
+    sprite.runAction(cc.sequence(cc.rotateTo(2, 0), cc.scaleTo(2, 0.15, 0.15)));
   }, timeOut);
   that.addChild(sprite, 0);
 }
