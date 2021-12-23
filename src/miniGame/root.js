@@ -22,7 +22,6 @@ var MenuSelectGameLayer = cc.Layer.extend({
           cc.tintTo(2.5, 255, 125, 0)
         )
       );
-      console.log(menuLable.getFontSize());
       this.addChild(menuLable, 5);
     }
   },
@@ -46,10 +45,10 @@ var BeoTranMiniGameInitControlRoot = cc.Scene.extend({
     this._super();
     this.init();
     //Run:
-    const MenuGameSelect = new MenuSelectGameLayer();
-    this.addChild(MenuGameSelect, 0);
+    // const MenuGameSelect = new MenuSelectGameLayer();
+    // this.addChild(MenuGameSelect, 0);
     //Demo Game:
-    // const DemoRun = new DemoTest();
-    // this.addChild(DemoRun);
+    const DemoRun = new DemoTest();
+    this.addChild(DemoRun);
   },
 });
