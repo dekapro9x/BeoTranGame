@@ -7,6 +7,7 @@ var DemoTest = cc.Scene.extend({
     this.addChild(LayerEventHandleDemo, 0);
     this.PlayGameText = new TextPlayRun();
     this.addChild(this.PlayGameText, 0);
+
   },
   changeSceneOne: function () {
     cc.director.runScene(new ChangeSceneOne());

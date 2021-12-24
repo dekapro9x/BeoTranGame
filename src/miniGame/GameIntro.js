@@ -3,10 +3,25 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     this._super();
     this.init();
     this.initMenu();
+    this.countTimeOutClickMouse = 0;
+    this.coutClickMount = 0;
     this.Scale_menu_0 = false;
     this.Scale_menu_1 = false;
     const that = this;
     this.addImgThienThach();
+    // this.TouchEvent = 1;
+    // var button = ccui.Button.create(res.TraiDat_png, res.TraiDat_png, res.TraiDat_png,null);
+    // console.log("ccui",ccui);
+    // console.log("Button", button);
+    // button.create(res.TraiDat_png, res.TraiDat_png, res.TraiDat_png, null);
+    // button.setTouchEnabled(true);
+    // button.loadTextures(res.TraiDat_png, res.TraiDat_png, res.TraiDat_png,null);
+    // button.setPosition(30, 200 - 30);
+    // button.addTouchEventListener(this.TouchEvent, this);
+    // this.addChild(button);
+    // const button = ccui.Button();
+    // button.loadTextures(res.TraiDat_png, res.TraiDat_png);
+    // this.addChild(button, 0);
     //Đặt sự kiện lắng nghe click chuột:
     const listenerEvent = cc.EventListener.create({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
@@ -14,7 +29,7 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
       onTouchBegan: function (touch, event) {
         const { _point } = touch;
         const { x, y } = _point;
-        that.addFlagWhenClickMouse(x, y);
+        that.addFlagWhenClickMouse(x, y, that);
       },
       onTouchMoved: function (touch, event) {},
       onTouchEnded: function (touch, event) {},
@@ -70,18 +85,28 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
       );
     }
   },
+
   //Đặt cờ tại mỗi vị trí bắt được sự kiện click chuột:
-  addFlagWhenClickMouse: function (x, y) {
+  addFlagWhenClickMouse: function (x, y, that) {
+    const listActionsFlag = [];
     const labelNameGame = new cc.LabelTTF();
-    labelNameGame.setFontSize(25);
+    labelNameGame.setFontSize(8);
     labelNameGame.setFontName("Arial");
     labelNameGame.setString("☢");
+    const nameFlag = "clickMouse" + that.coutClickMount;
+    labelNameGame.setName(nameFlag);
+    that.coutClickMount++;
     labelNameGame.x = x;
     labelNameGame.y = y;
-    labelNameGame.runAction(cc.spawn(cc.tintTo(0.5, 238, 130, 238)));
-    labelNameGame.runAction(cc.spawn(cc.tintTo(2.5, 255, 0, 0)));
+    listActionsFlag[0] = cc.spawn(cc.tintTo(0.5, 238, 130, 238));
+    listActionsFlag[1] = cc.spawn(cc.tintTo(2.5, 60, 179, 113));
+    labelNameGame.runAction(cc.sequence(listActionsFlag));
     this.handleClickMouse(x, y);
-    this.addChild(labelNameGame, 0);
+    this.addChild(labelNameGame);
+    setTimeout(function () {
+      that.removeChild(that.getChildByName(nameFlag), true);
+      // that.removeAllChildren();
+    }, 1000);
   },
   addImgThienThach: function () {
     this.startGameBtn = cc.Sprite.create(res.SaoChoi_png);
