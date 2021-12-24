@@ -5,10 +5,10 @@ var BeoTranMiniGameInitControlRoot = cc.Scene.extend({
     this._super();
     this.init();
     //Run:
-    // const MenuGameSelect = new MenuIntroSelectGameLayer();
-    // this.addChild(MenuGameSelect, 0);
+    const MenuGameSelect = new MenuIntroSelectGameLayer();
+    this.addChild(MenuGameSelect, 0);
     //Demo Game:
-    const DemoRun = new DemoTest();
-    this.addChild(DemoRun);
+    // const DemoRun = new DemoTest();
+    // this.addChild(DemoRun);
   },
 });
