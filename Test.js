@@ -106,7 +106,7 @@ var EtroGameLayer = cc.Layer.extend({
     const sizeBtn = 0.06;
     // Nút điều khiển bên trái:
     var leftButtonControlActivity = (that.leftButtonControlActivity =
-      cc.Sprite.create(res.StartGameBnt_png));
+      cc.Sprite.create(res.SaoChoi_png));
     leftButtonControlActivity.scale = sizeBtn;
     that.leftButtonControlActivity.x = 95;
     that.leftButtonControlActivity.y = 80;
@@ -114,7 +114,7 @@ var EtroGameLayer = cc.Layer.extend({
   
     // Nút điều khiển bên phải:
     var rightButtonControlActivity = (that.rightButtonControlActivity =
-      cc.Sprite.create(res.StartGameBnt_png));
+      cc.Sprite.create(res.SaoChoi_png));
     rightButtonControlActivity.scale = sizeBtn;
     that.rightButtonControlActivity.y = 80;
     that.rightButtonControlActivity.x = 205;
@@ -123,7 +123,7 @@ var EtroGameLayer = cc.Layer.extend({
   
     // Nút điều khiển lên trên:
     var upButtonControlActivity = (that.upButtonControlActivity =
-      cc.Sprite.create(res.StartGameBnt_png));
+      cc.Sprite.create(res.SaoChoi_png));
     upButtonControlActivity.scale = sizeBtn;
     that.upButtonControlActivity.y = 130;
     that.upButtonControlActivity.x = 150;
@@ -132,7 +132,7 @@ var EtroGameLayer = cc.Layer.extend({
   
     //Nút điều khiển xuống dưới:
     var downButtonControlActivity = (that.downButtonControlActivity =
-      cc.Sprite.create(res.StartGameBnt_png));
+      cc.Sprite.create(res.SaoChoi_png));
     downButtonControlActivity.scale = sizeBtn;
     that.downButtonControlActivity.y = 40;
     that.downButtonControlActivity.x = 150;
@@ -140,7 +140,7 @@ var EtroGameLayer = cc.Layer.extend({
     that.addChild(downButtonControlActivity, 0);
   
     //Nút bắn:
-    that.fireActions = cc.Sprite.create(res.StartGameBnt_png);
+    that.fireActions = cc.Sprite.create(res.SaoChoi_png);
     that.fireActions.y = 80;
     that.fireActions.scale = 0.12;
     that.fireActions.x = 850;
@@ -150,7 +150,7 @@ var EtroGameLayer = cc.Layer.extend({
   
   //Nút bắt đầu Game:
   function renderButtonStartPlayGame(that) {
-    const startGame = cc.Sprite.create(res.StartGameBnt_png);
+    const startGame = cc.Sprite.create(res.SaoChoi_png);
     startGame.y = 120;
     startGame.x = 850;
     startGame.scale = 0.2;

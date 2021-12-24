@@ -2,13 +2,13 @@ var Objs = {
   Square: null,
 };
 var GameClassLayerDemoEventHandle = cc.Layer.extend({
-  ctor: function () {
+  ctor: function (parent) {
     this._super();
     this.init();
     const that = this;
     this.renderImgSaoChoi();
-    this.renderButtonStartGame();
-    renderAnimationsZoomImg(this);
+    this.renderButtonStartGame(parent);
+    renderImgTraiDatQuayTron(this);
     const listenerEvent = cc.EventListener.create({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
       swallowTouches: true,
@@ -34,31 +34,25 @@ var GameClassLayerDemoEventHandle = cc.Layer.extend({
     labelNameGame.runAction(cc.spawn(cc.tintTo(2.5, 255, 0, 0)));
     this.addChild(labelNameGame, 0);
   },
-  update: function (dt) {},
-  checkCollision: function () {},
   onTouchBegan: function (touch, event) {},
   onTouchMoved: function (touch, event) {},
-  addTexts: function () {},
-  SoundClicked: function () {},
-  addSquares: function () {},
-  generateDirection: function () {},
   renderImgSaoChoi: function () {
-    this.startGameBtn = cc.Sprite.create(res.StartGameBnt_png);
+    this.startGameBtn = cc.Sprite.create(res.SaoChoi_png);
     this.startGameBtn.x = 873;
     this.startGameBtn.y = 535;
     this.startGameBtn.setScale(0.75, 0.7);
     this.startGameBtn.setAnchorPoint(cc.p(0.5, 0.5));
     this.addChild(this.startGameBtn, 0);
   },
-  renderButtonStartGame: function () {
-    const startBtn = new ButtonStart();
+  renderButtonStartGame: function (parent) {
+    const startBtn = new ButtonStart(parent);
     this.addChild(startBtn, 0);
   },
 });
 
 // Nút ấn bắt đầu game:
 var ButtonStart = cc.Layer.extend({
-  ctor: function () {
+  ctor: function (parent) {
     this._super();
     this.init();
     const that = this;
@@ -69,7 +63,7 @@ var ButtonStart = cc.Layer.extend({
       onTouchBegan: function (touch, event) {
         const { _point } = touch;
         const { x, y } = _point;
-        that.handleClickMouse(x, y);
+        that.handleClickMouse(x, y, parent);
       },
       onTouchMoved: function (touch, event) {},
       onTouchEnded: function (touch, event) {},
@@ -77,23 +71,25 @@ var ButtonStart = cc.Layer.extend({
     cc.eventManager.addListener(listenerEvent, this.button);
   },
   renderImgButtonStart: function () {
-    const size = cc.winSize;
     this.button = cc.Sprite.create(res.Play_png);
     this.button.attr({
-      x: size.width - 100,
-      y: 80,
+      x: 0,
+      y: 0,
       scale: 0.1,
-      rotation: 180,
+      rotation: 0,
     });
+    this.button.runAction(cc.spawn(cc.moveBy(1, cc.p(212, 546))));
     this.addChild(this.button, 0);
   },
-  handleClickMouse: function (x, y) {
+  handleClickMouse: function (x, y, parent) {
     const base = 10;
     const parsedX = parseInt(x, base);
     const parsedY = parseInt(y, base);
-    console.log(parsedX, parsedY);
-    if (811 < parsedX && parsedX < 905 && 34 < parsedY && parsedY < 105) {
+    if (167 < parsedX && parsedX < 259 && 507 < parsedY && parsedY < 590) {
+      this.parent.removeChild(this, true);
+      parent.changeSceneOne();
       this.playMusicStartGame();
+      this.removeChild(this, true);
     } else {
       this.stopMusicStartGame();
     }
@@ -105,44 +101,3 @@ var ButtonStart = cc.Layer.extend({
     cc.audioEngine.stopMusic();
   },
 });
-
-//1.Hiển thị 1 ảnh:
-function renderImg(that) {
-  const imagetest = cc.Sprite.create(res.TraiDat_png);
-  imagetest.setPosition(0, 0); //=>Set vị trí tương đối của vật thể trong trục tọa độ x0y
-  imagetest.setContentSize(cc.size(0, 0)); //=>Set kích thước
-  imagetest.setScale(0.25, 0.25); //Set tỷ lệ so với vật thể gốc và có thể kéo vật thể méo theo trục x0y
-  imagetest.setAnchorPoint(cc.p(0.5, 0.5)); //Set tâm vật thể theo thằng cha của nó (0,0) góc dưới trái, (1,1) góc trên phải.
-  that.addChild(imagetest, 0);
-}
-
-//2.Chữ hiệu ứng màu:
-function renderAnimationsTextColorRun(that) {
-  const size = cc.winSize;
-  const helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
-  helloLabel.x = size.width / 2;
-  helloLabel.y = 0;
-  helloLabel.runAction(
-    cc.spawn(
-      cc.moveBy(2.5, cc.p(0, size.height - 40)),
-      cc.tintTo(2.5, 255, 125, 0)
-    )
-  );
-  that.addChild(helloLabel, 5);
-}
-
-//3.Hiển thị ảnh phóng to:
-function renderAnimationsZoomImg(that) {
-  const timeOut = 100;
-  const sprite = new cc.Sprite(res.TraiDat_png);
-  sprite.attr({
-    x: 612,
-    y: 460,
-    scale: 0,
-    rotation: 180,
-  });
-  setTimeout(() => {
-    sprite.runAction(cc.sequence(cc.rotateTo(2, 0), cc.scaleTo(2, 0.15, 0.15)));
-  }, timeOut);
-  that.addChild(sprite, 0);
-}

@@ -18,6 +18,7 @@
         "src/miniGame/caro/CaroGame.js",
         "src/miniGame/demo/index.js",
         "src/miniGame/demo/LayerClass.js",
-        "src/config/MenuGame.js"
+        "src/config/MenuGame.js",
+        "src/miniGame/GameIntro.js"
     ]
 }
