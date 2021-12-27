@@ -9,19 +9,6 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     this.Scale_menu_1 = false;
     const that = this;
     this.addImgThienThach();
-    // this.TouchEvent = 1;
-    // var button = ccui.Button.create(res.TraiDat_png, res.TraiDat_png, res.TraiDat_png,null);
-    // console.log("ccui",ccui);
-    // console.log("Button", button);
-    // button.create(res.TraiDat_png, res.TraiDat_png, res.TraiDat_png, null);
-    // button.setTouchEnabled(true);
-    // button.loadTextures(res.TraiDat_png, res.TraiDat_png, res.TraiDat_png,null);
-    // button.setPosition(30, 200 - 30);
-    // button.addTouchEventListener(this.TouchEvent, this);
-    // this.addChild(button);
-    // const button = ccui.Button();
-    // button.loadTextures(res.TraiDat_png, res.TraiDat_png);
-    // this.addChild(button, 0);
     //Đặt sự kiện lắng nghe click chuột:
     const listenerEvent = cc.EventListener.create({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
@@ -85,7 +72,6 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
       );
     }
   },
-
   //Đặt cờ tại mỗi vị trí bắt được sự kiện click chuột:
   addFlagWhenClickMouse: function (x, y, that) {
     const listActionsFlag = [];
@@ -103,7 +89,10 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     labelNameGame.runAction(cc.sequence(listActionsFlag));
     this.handleClickMouse(x, y);
     this.addChild(labelNameGame);
-    setTimeout(function () {
+    if (this.countTimeOutClickMouse) {
+      clearTimeout(this.countTimeOutClickMouse);
+    }
+    this.countTimeOutClickMouse = setTimeout(function () {
       that.removeChild(that.getChildByName(nameFlag), true);
       // that.removeAllChildren();
     }, 1000);
@@ -153,8 +142,12 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     ) {
       this.Scale_menu_0 = !this.Scale_menu_0;
       this.menuLable_0.setScale(this.Scale_menu_0 ? 1.25 : 1);
+      //Thay đổi màu sắc menu chọn Game + Chuyển cảnh::
       if (this.Scale_menu_0) {
-        this.menuLable_0.runAction(cc.spawn(cc.tintTo(0.5, 255, 0, 0)));
+        const actions1 = cc.spawn(cc.tintTo(0.5, 255, 0, 0));
+        const delayTime = cc.delayTime(5);
+        const actions2 = cc.director.runScene(new GameCaroInit());
+        this.menuLable_0.runAction(cc.sequence(actions1, delayTime, actions2));
       } else {
         this.menuLable_0.runAction(cc.spawn(cc.tintTo(0.5, 255, 125, 0)));
       }

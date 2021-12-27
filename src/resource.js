@@ -5,6 +5,8 @@ var res = {
   Play_png: "res/StartGame.png",
   backGround_Music: "sound/bgMusic.mp3",
   BacDa_png: "res/BacDaChe.jpg",
+  Walk_png : "res/Walk.gif",
+  MiniOn_png: "res/MiniOn.png",
 };
 var g_resources = [];
 for (const i in res) {
