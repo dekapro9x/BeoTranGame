@@ -4,6 +4,7 @@ const nameChirldGameCaro = {
   Loa_Left_Img: "Loa_Img_Left",
   Loa_Ringt_Img: "Loa_Img_Right",
   Start_Game_Btn: "Button_Start",
+  OVuong_Img: "O_Vuong_",
 };
 var GameCaroInit = cc.Scene.extend({
   ctor: function () {
@@ -212,13 +213,20 @@ var TableCaroInit = cc.Scene.extend({
   },
   init: function () {
     const startRun = true; // X đi trước.
-    const arrayMap = 200;
-    //Tạo ảnh nền Minion:
-    const imgMinion = cc.Sprite.create(res.MiniOn_png);
-    imgMinion.setName(nameChirldGameCaro.Img_MiniOn);
-    imgMinion.setPosition(480, 323);
-    imgMinion.setScale(0.3, 0.3);
-    this.addChild(imgMinion, 0);
-    console.log("This", this);
+    const sizeWin = cc.winSize; //{ width: 960, height: 640 };
+    const arr2D = new Array();
+    arr2D[0] = new Array(80, 160, 240, 300);
+    arr2D[1] = new Array(80, 160, 240, 300);
+    console.log("Mảng 2 chiều arr2D[Ox][Oy]:", arr2D);
+    console.log("Ziazeeeee>");
+    for (var indexOVuong = 0; indexOVuong < arr2D; indexOVuong++) {
+      //Tạo ảnh nền Minion:
+      const imgMinion = cc.Sprite.create(res.OVuong_png);
+      imgMinion.setName(nameChirldGameCaro.OVuong_Img);
+      imgMinion.setPosition(0, 0);
+      imgMinion.setScale(1, 1);
+      this.addChild(imgMinion, 0);
+      console.log("This", this);
+    }
   },
 });
