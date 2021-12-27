@@ -91,11 +91,9 @@ var GameCaroInit = cc.Scene.extend({
     }
   },
   handleZoomBtnStart: function (parsedX, parsedY) {
-    // console.log("Chuột ở :", parsedX, parsedY);
     const entityBtnStart = this.getChildByName(
       nameChirldGameCaro.Start_Game_Btn
     );
-    console.log(entityBtnStart);
     const checkMouseBtnStart = {
       inX: false,
       inY: false,
@@ -125,7 +123,8 @@ var GameCaroInit = cc.Scene.extend({
     }
   },
   zoomAnimationsAllChirld: function (parsedX, parsedY) {
-    console.log(parsedX, parsedY);
+    console.log("Vị trí click chuột:", parsedX, parsedY);
+    this.clickStartGame(parsedX, parsedY);
     //Lấy vị trí thực thể ảnh Mini on:
     const entityImgMinionPo = this.getChildByName(
       nameChirldGameCaro.Img_MiniOn
@@ -165,12 +164,61 @@ var GameCaroInit = cc.Scene.extend({
       cc.repeatForever(cc.runAction(cc.sequence(actions1, actions2, actions3)));
     }
   },
+  clickStartGame: function (parsedX, parsedY) {
+    const entityButtonStartGame = this.getChildByName(
+      nameChirldGameCaro.Start_Game_Btn
+    );
+    const checkInClick = checkSpaceClickMouseEntity(
+      entityButtonStartGame,
+      0.25,
+      parsedX,
+      parsedY
+    );
+    if (checkInClick) {
+      cc.director.runScene(new TableCaroInit());
+    }
+  },
 });
 
-// var TableCaroInit = cc.Scene.extend({
-//   ctor: function () {
-//     this._super();
-//     this.init();
-//   },
-//   init: function () {},
-// });
+function checkSpaceClickMouseEntity(thisClass, scaleInput, xPoClick, yPoClick) {
+  const scale = scaleInput;
+  const checkEntityClick = {
+    inX: false,
+    inY: false,
+  };
+  const po = thisClass._position;
+  const size = thisClass._contentSize;
+  const minX = po.x - (size.width * scale) / 2;
+  const maxX = po.x + (size.width * scale) / 2;
+  const minY = po.y - (size.height * scale) / 2;
+  const maxY = po.y + (size.height * scale) / 2;
+  if (xPoClick > minX && xPoClick < maxX) {
+    checkEntityClick.inX = true;
+  }
+  if (yPoClick > minY && yPoClick < maxY) {
+    checkEntityClick.inY = true;
+  }
+  if (checkEntityClick.inX && checkEntityClick.inY) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+var TableCaroInit = cc.Scene.extend({
+  ctor: function () {
+    this._super();
+    this.init();
+  },
+  init: function () {
+    const startRun = true; // X đi trước.
+    const arrayMap = 200;
+    //Tạo ảnh nền Minion:
+    const imgMinion = cc.Sprite.create(res.MiniOn_png);
+    imgMinion.setName(nameChirldGameCaro.Img_MiniOn);
+    imgMinion.setPosition(480, 323);
+    imgMinion.setScale(0.3, 0.3);
+    this.addChild(imgMinion, 0);
+    console.log("This", this);
+  },
+});

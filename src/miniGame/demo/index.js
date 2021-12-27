@@ -9,6 +9,7 @@ var DemoTest = cc.Scene.extend({
     this.addChild(this.PlayGameText, 0);
 
   },
+  //Thay đổi ngữ cảnh:
   changeSceneOne: function () {
     cc.director.runScene(new ChangeSceneOne());
     // cc.director.pushScene(new ChangeSceneOne());
