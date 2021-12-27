@@ -21,7 +21,7 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
       onTouchMoved: function (touch, event) {},
       onTouchEnded: function (touch, event) {},
     });
-    cc.eventManager.addListener(listenerEvent, this.startGameBtn);
+    cc.eventManager.addListener(listenerEvent, this.ImgThienThach);
     //Hiển thị danh sách menu lựa chọn:
     AddImgBackGroundMenu(this);
   },
@@ -98,12 +98,16 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     }, 1000);
   },
   addImgThienThach: function () {
-    this.startGameBtn = cc.Sprite.create(res.SaoChoi_png);
-    this.startGameBtn.x = 873;
-    this.startGameBtn.y = 535;
-    this.startGameBtn.setScale(0.75, 0.7);
-    this.startGameBtn.setAnchorPoint(cc.p(0.5, 0.5));
-    this.addChild(this.startGameBtn, 0);
+    const size = cc.winSize;
+    this.ImgThienThach = cc.Sprite.create(res.SaoChoi_png);
+    this.ImgThienThach.x = 873;
+    this.ImgThienThach.y = 535;
+    this.ImgThienThach.setScale(0.75, 0.7);
+    this.ImgThienThach.setAnchorPoint(cc.p(0.5, 0.5));
+    this.addChild(this.ImgThienThach, 0);
+    this.ImgThienThach.runAction(
+      cc.spawn(cc.moveBy(5, cc.p(-size.width / 2 - 150, -size.height / 2)))
+    );
   },
   functionCheckPosition: function (position, size, positionClick) {
     const pxmax = position.x + size.width / 2;
@@ -176,13 +180,13 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
       const menuLable = new cc.LabelTTF();
       menuLable.setString(index + 1 + "." + arrMenu[index].name);
       menuLable.setFontName("Arial");
-      menuLable.setFontSize(45);
-      menuLable.x = size.width / 2;
+      menuLable.setFontSize(35);
+      menuLable.x = 0;
       menuLable.y = 0;
       menuLable.setName("menuLable_" + index);
       menuLable.runAction(
         cc.spawn(
-          cc.moveBy(2.5, cc.p(0, size.height - 80 * (index + 1))),
+          cc.moveBy(2.5, cc.p(200, size.height - 50 * (index + 1))),
           cc.tintTo(2.5, 255, 125, 0)
         )
       );
@@ -200,6 +204,6 @@ function AddImgBackGroundMenu(that) {
     scale: 0.5,
     rotation: 180,
   });
-  sprite.runAction(cc.sequence(cc.rotateTo(2, 0), cc.scaleTo(2, 0.7, 0.7)));
+  sprite.runAction(cc.sequence(cc.rotateTo(5, 0), cc.scaleTo(2, 0.7, 0.7)));
   that.addChild(sprite, 0);
 }
