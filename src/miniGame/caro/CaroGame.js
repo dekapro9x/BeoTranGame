@@ -11,6 +11,7 @@ var GameCaroInit = cc.Scene.extend({
     this.init();
   },
   init: function () {
+    this.isZoomBtnStart = false;
     const that = this;
     const size = cc.winSize;
     //Tạo ảnh nền Minion:
@@ -69,6 +70,59 @@ var GameCaroInit = cc.Scene.extend({
     });
     const entityImgMinion = this.getChildByName(nameChirldGameCaro.Img_MiniOn);
     cc.eventManager.addListener(listenerEvent, entityImgMinion);
+    //Lắng nghe sự kiện trỏ chuột vào nút Start:
+    if ("mouse" in cc.sys.capabilities) {
+      cc.eventManager.addListener(
+        {
+          event: cc.EventListener.MOUSE,
+          onMouseMove: function (event) {
+            const { _x, _y } = event;
+            const base = 10;
+            const parsedX = parseInt(_x, base);
+            const parsedY = parseInt(_y, base);
+            that.handleZoomBtnStart(parsedX, parsedY);
+            if (event.getButton() == cc.EventMouse.BUTTON_LEFT) {
+              console.log("Giữ và kéo lê chuột trái:");
+            }
+          },
+        },
+        this
+      );
+    }
+  },
+  handleZoomBtnStart: function (parsedX, parsedY) {
+    // console.log("Chuột ở :", parsedX, parsedY);
+    const entityBtnStart = this.getChildByName(
+      nameChirldGameCaro.Start_Game_Btn
+    );
+    console.log(entityBtnStart);
+    const checkMouseBtnStart = {
+      inX: false,
+      inY: false,
+    };
+    const po = entityBtnStart._position;
+    const size = entityBtnStart._contentSize;
+    const minX = po.x - (size.width * 0.25) / 2;
+    const maxX = po.x + (size.width * 0.25) / 2;
+    const minY = po.y - (size.height * 0.25) / 2;
+    const maxY = po.y + (size.height * 0.25) / 2;
+    if (parsedX > minX && parsedX < maxX) {
+      checkMouseBtnStart.inX = true;
+    }
+    if (parsedY > minY && parsedY < maxY) {
+      checkMouseBtnStart.inY = true;
+    }
+    if (checkMouseBtnStart.inX && checkMouseBtnStart.inY) {
+      if (!this.isZoomBtnStart) {
+        this.isZoomBtnStart = true;
+        entityBtnStart.setScale(0.5, 0.5);
+      }
+    } else {
+      if (this.isZoomBtnStart) {
+        this.isZoomBtnStart = false;
+        entityBtnStart.setScale(0.25, 0.25);
+      }
+    }
   },
   zoomAnimationsAllChirld: function (parsedX, parsedY) {
     console.log(parsedX, parsedY);
@@ -108,7 +162,7 @@ var GameCaroInit = cc.Scene.extend({
       const actions1 = entityImgMinionPo.setScale(0.3, 0.3);
       const actions2 = loaTrai.setScale(0.15, 0.15);
       const actions3 = loaPhai.setScale(0.15, 0.15);
-      cc.runAction(cc.sequence(actions1, actions2, actions3));
+      cc.repeatForever(cc.runAction(cc.sequence(actions1, actions2, actions3)));
     }
   },
 });
