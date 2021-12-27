@@ -1,6 +1,9 @@
 const nameChirldGameCaro = {
   Img_MiniOn: "Img_Minion",
   Text_Caro: "Text_Caro",
+  Loa_Left_Img: "Loa_Img_Left",
+  Loa_Ringt_Img: "Loa_Img_Right",
+  Start_Game_Btn: "Button_Start",
 };
 var GameCaroInit = cc.Scene.extend({
   ctor: function () {
@@ -16,6 +19,23 @@ var GameCaroInit = cc.Scene.extend({
     imgMinion.setPosition(480, 323);
     imgMinion.setScale(0.3, 0.3);
     this.addChild(imgMinion, 0);
+    //Tạo 2 loa:
+    const imgLoaLeft = cc.Sprite.create(res.Loa_png);
+    imgLoaLeft.setName(nameChirldGameCaro.Loa_Left_Img);
+    imgLoaLeft.setPosition(343, 412);
+    imgLoaLeft.setScale(0.15, 0.15);
+    this.addChild(imgLoaLeft, 1);
+    const imgLoaRight = cc.Sprite.create(res.Loa_png);
+    imgLoaRight.setName(nameChirldGameCaro.Loa_Ringt_Img);
+    imgLoaRight.setPosition(618, 418);
+    imgLoaRight.setScale(0.15, 0.15);
+    this.addChild(imgLoaRight, 1);
+    //Nút bắt đầu Game:
+    const startBtn = cc.Sprite.create(res.Play_png);
+    startBtn.setName(nameChirldGameCaro.Start_Game_Btn);
+    startBtn.setPosition(476, 131);
+    startBtn.setScale(0.25, 0.25);
+    this.addChild(startBtn, 1);
     //Tạo chữ:
     const textCaroRun = new cc.LabelTTF();
     textCaroRun.setString("Cờ Ca Rô");
@@ -42,7 +62,7 @@ var GameCaroInit = cc.Scene.extend({
         const base = 10;
         const parsedX = parseInt(x, base);
         const parsedY = parseInt(y, base);
-        that.zoomImgMinion(parsedX, parsedY);
+        that.zoomAnimationsAllChirld(parsedX, parsedY);
       },
       onTouchMoved: function (touch, event) {},
       onTouchEnded: function (touch, event) {},
@@ -50,33 +70,53 @@ var GameCaroInit = cc.Scene.extend({
     const entityImgMinion = this.getChildByName(nameChirldGameCaro.Img_MiniOn);
     cc.eventManager.addListener(listenerEvent, entityImgMinion);
   },
-  zoomImgMinion: function (parsedX, parsedY) {
-    console.log("Vị trí ấn chuột >>:", parsedX, parsedY);
+  zoomAnimationsAllChirld: function (parsedX, parsedY) {
+    console.log(parsedX, parsedY);
     //Lấy vị trí thực thể ảnh Mini on:
     const entityImgMinionPo = this.getChildByName(
       nameChirldGameCaro.Img_MiniOn
     );
+    const entityTextCaro = this.getChildByName(nameChirldGameCaro.Text_Caro);
+    const loaTrai = this.getChildByName(nameChirldGameCaro.Loa_Left_Img);
+    const loaPhai = this.getChildByName(nameChirldGameCaro.Loa_Ringt_Img);
     const checkMouse = {
       inX: false,
       inY: false,
     };
     const po = entityImgMinionPo._position;
     const size = entityImgMinionPo._contentSize;
-    const xMin = po.x - size.width / 2;
-    const xMax = po.x + size.width / 2;
-    const yMin = po.y - size.height / 2;
-    const yMax = po.y + size.height / 2;
+    const xMin = po.x - (size.width * 0.3) / 2;
+    const xMax = po.x + (size.width * 0.3) / 2;
+    const yMin = po.y - (size.height * 0.3) / 2;
+    const yMax = po.y + (size.height * 0.3) / 2;
     const mouseClick = cc.p(parsedX, parsedY);
-    console.log("po", po);
-    console.log("size", size);
-    console.log("xMin,xMax", xMin, xMax);
-    console.log("yMin,yMax", yMin, yMax);
     if (mouseClick.x > xMin && mouseClick.x < xMax) {
       checkMouse.inX = true;
     }
     if (mouseClick.y > yMin && mouseClick.y < yMax) {
       checkMouse.inY = true;
     }
-    console.log("checkMouse", checkMouse);
+    if (checkMouse.inX && checkMouse.inY) {
+      const actions1 = entityImgMinionPo.setScale(0.5, 0.5);
+      const actions2 = entityTextCaro.runAction(
+        cc.spawn(cc.moveBy(2.5, cc.p(size.width / 2, size.height - 120)))
+      );
+      const actions3 = loaTrai.setScale(0.25, 0.25);
+      const actions4 = loaPhai.setScale(0.25, 0.25);
+      cc.runAction(cc.sequence(actions1, actions2, actions3, actions4));
+    } else {
+      const actions1 = entityImgMinionPo.setScale(0.3, 0.3);
+      const actions2 = loaTrai.setScale(0.15, 0.15);
+      const actions3 = loaPhai.setScale(0.15, 0.15);
+      cc.runAction(cc.sequence(actions1, actions2, actions3));
+    }
   },
 });
+
+// var TableCaroInit = cc.Scene.extend({
+//   ctor: function () {
+//     this._super();
+//     this.init();
+//   },
+//   init: function () {},
+// });
