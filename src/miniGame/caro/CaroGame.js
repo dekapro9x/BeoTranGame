@@ -5,6 +5,7 @@ const nameChirldGameCaro = {
   Loa_Ringt_Img: "Loa_Img_Right",
   Start_Game_Btn: "Button_Start",
   OVuong_Img: "O_Vuong_",
+  BacDa_Img: "BacDa_Img",
 };
 var GameCaroInit = cc.Scene.extend({
   ctor: function () {
@@ -210,23 +211,89 @@ var TableCaroInit = cc.Scene.extend({
   ctor: function () {
     this._super();
     this.init();
+    const startRun = true; // X đi trước.
   },
   init: function () {
-    const startRun = true; // X đi trước.
-    const sizeWin = cc.winSize; //{ width: 960, height: 640 };
+    const getSizeWin = cc.winSize;
+    //Ảnh nền Bác Đa:
+    const bacDaBackground = cc.Sprite.create(res.BacDa_png);
+    bacDaBackground.setName(nameChirldGameCaro.BacDa_png);
+    bacDaBackground.setPosition(getSizeWin.width / 2, getSizeWin.height / 2);
+    bacDaBackground.setScale(1.1, 1.2);
+    this.addChild(bacDaBackground, 0);
+    this.mapArrayOVuong();
+  },
+  mapArrayOVuong: function () {
+    //Tạo mảng ô vuông cạnh: 80px*80px.
+    //Tâm ô vuông xác định = (40;40);
     const arr2D = new Array();
-    arr2D[0] = new Array(80, 160, 240, 300);
-    arr2D[1] = new Array(80, 160, 240, 300);
+    const poCenter = { pOx_center: 40, pOy_center: 40 };
+    arr2D[0] = new Array(
+      40,
+      80,
+      120,
+      160,
+      200,
+      240,
+      280,
+      320,
+      360,
+      400,
+      440,
+      480,
+      520,
+      560,
+      600,
+      640,
+      680,
+      720,
+      760,
+      800,
+      840,
+      880,
+      920,
+      960
+    );
+    arr2D[1] = new Array(
+      40,
+      80,
+      120,
+      160,
+      200,
+      240,
+      280,
+      320,
+      360,
+      400,
+      440,
+      480,
+      520,
+      560,
+      600,
+      640
+    );
+    const arrayOVuong = [];
     console.log("Mảng 2 chiều arr2D[Ox][Oy]:", arr2D);
-    console.log("Ziazeeeee>");
-    for (var indexOVuong = 0; indexOVuong < arr2D; indexOVuong++) {
-      //Tạo ảnh nền Minion:
-      const imgMinion = cc.Sprite.create(res.OVuong_png);
-      imgMinion.setName(nameChirldGameCaro.OVuong_Img);
-      imgMinion.setPosition(0, 0);
-      imgMinion.setScale(1, 1);
-      this.addChild(imgMinion, 0);
-      console.log("This", this);
+    for (var indexOx = 0; indexOx < arr2D[0].length; indexOx++) {
+      for (let indexOy = 0; indexOy < arr2D[1].length; indexOy++) {
+        console.log("indexOx", arr2D[0][indexOx]);
+        console.log("indexOy", arr2D[1][indexOy]);
+        const arrayPoOVuong = {
+          _pOx: arr2D[0][indexOx],
+          _pOy: arr2D[1][indexOy],
+        };
+        arrayOVuong.push(arrayPoOVuong);
+        const oVuong = cc.Sprite.create(res.OVuong_png);
+        oVuong.setName(
+          nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "Oy_" + indexOy
+        );
+        // imgMinion.setPosition(0, 0);
+        oVuong.x = poCenter.pOx_center * (indexOx + 1);
+        oVuong.y = poCenter.pOy_center * (indexOy + 1);
+        // oVuong.setScale(1, 1);
+        this.addChild(oVuong, 0);
+      }
     }
+    console.log("arrayPoOVuong>>", arrayOVuong);
   },
 });
