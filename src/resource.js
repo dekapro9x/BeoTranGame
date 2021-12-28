@@ -8,7 +8,10 @@ var res = {
   Walk_png : "res/Walk.gif",
   MiniOn_png: "res/MiniOn.png",
   Loa_png:"res/Loa.png", 
-  OVuong_png:"res/Ovuong.png",
+  OVuongCam_png:"res/OVuongCam.png",
+  OVuongTrang_png:"res/OVuongTrang.png",
+  OVuongDo_png:"res/OvuongDo.png",
+  ThayHuan_png:"res/ThayHuan.png",
 };
 var g_resources = [];
 for (const i in res) {

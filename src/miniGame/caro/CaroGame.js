@@ -211,89 +211,212 @@ var TableCaroInit = cc.Scene.extend({
   ctor: function () {
     this._super();
     this.init();
-    const startRun = true; // X đi trước.
+    this.flagX_O = true; // X đi trước.
   },
   init: function () {
-    const getSizeWin = cc.winSize;
     //Ảnh nền Bác Đa:
+    const that = this;
+    const getSizeWin = cc.winSize;
     const bacDaBackground = cc.Sprite.create(res.BacDa_png);
-    bacDaBackground.setName(nameChirldGameCaro.BacDa_png);
+    bacDaBackground.setName(nameChirldGameCaro.BacDa_Img);
     bacDaBackground.setPosition(getSizeWin.width / 2, getSizeWin.height / 2);
     bacDaBackground.setScale(1.1, 1.2);
     this.addChild(bacDaBackground, 0);
     this.mapArrayOVuong();
+    //Lắng nghe sự kiện click chuột đặt sự kiện vào ảnh nền bác Đa:"
+    const listenerEvent = cc.EventListener.create({
+      event: cc.EventListener.TOUCH_ONE_BY_ONE,
+      swallowTouches: true,
+      onTouchBegan: function (touch, event) {
+        const { _point } = touch;
+        const { x, y } = _point;
+        const base = 10;
+        const parsedX = parseInt(x, base);
+        const parsedY = parseInt(y, base);
+        console.log("Lắng nghe chuột", touch);
+        that.addListenerTouchMousePushX_O(parsedX, parsedY);
+      },
+      onTouchMoved: function (touch, event) {},
+      onTouchEnded: function (touch, event) {},
+    });
+    const entityImgBacDa = this.getChildByName(nameChirldGameCaro.BacDa_Img);
+    cc.eventManager.addListener(listenerEvent, entityImgBacDa);
+    //Lắng nghe sự kiện di chuyển chuột trỏ vào từng thằng con nào thì sáng lên":
+    if ("mouse" in cc.sys.capabilities) {
+      cc.eventManager.addListener(
+        {
+          event: cc.EventListener.MOUSE,
+          onMouseMove: function (event) {
+            const { _x, _y } = event;
+            const base = 10;
+            const parsedX = parseInt(_x, base);
+            const parsedY = parseInt(_y, base);
+            // that.handleZoomBtnStart(parsedX, parsedY);
+            // console.log("Lắng nghe sự kiện di chuyển chuột:", parsedX, parsedY);
+            if (event.getButton() == cc.EventMouse.BUTTON_LEFT) {
+              // console.log("Giữ và kéo lê chuột trái:");
+            }
+          },
+        },
+        this
+      );
+    }
   },
   mapArrayOVuong: function () {
     //Tạo mảng ô vuông cạnh: 80px*80px.
     //Tâm ô vuông xác định = (40;40);
-    const arr2D = new Array();
     const poCenter = { pOx_center: 40, pOy_center: 40 };
-    arr2D[0] = new Array(
-      40,
-      80,
-      120,
-      160,
-      200,
-      240,
-      280,
-      320,
-      360,
-      400,
-      440,
-      480,
-      520,
-      560,
-      600,
-      640,
-      680,
-      720,
-      760,
-      800,
-      840,
-      880,
-      920,
-      960
-    );
-    arr2D[1] = new Array(
-      40,
-      80,
-      120,
-      160,
-      200,
-      240,
-      280,
-      320,
-      360,
-      400,
-      440,
-      480,
-      520,
-      560,
-      600,
-      640
-    );
+    const arr2D = new Array();
+    const getSizeWin = cc.winSize;
+    const arrayPOx_center = [];
+    const arrayPOy_center = [];
+    //Mảng tọa độ vị trí tâm ô vuông trên Ox:
+    for (
+      var tamOx_Ovuong = 1;
+      tamOx_Ovuong <= getSizeWin.width / poCenter.pOx_center;
+      tamOx_Ovuong++
+    ) {
+      arrayPOx_center.push(tamOx_Ovuong * poCenter.pOx_center);
+    }
+    //Mảng tọa độ vị trí tâm ô vuông trên Oy:
+    for (
+      var tamOy_Ovuong = 1;
+      tamOy_Ovuong <= getSizeWin.height / poCenter.pOy_center;
+      tamOy_Ovuong++
+    ) {
+      arrayPOy_center.push(tamOy_Ovuong * poCenter.pOy_center);
+    }
+    arr2D[0] = arrayPOx_center;
+    arr2D[1] = arrayPOy_center;
     const arrayOVuong = [];
-    console.log("Mảng 2 chiều arr2D[Ox][Oy]:", arr2D);
+    // console.log("Mảng 2 chiều arr2D[Ox][Oy]:", arr2D);
     for (var indexOx = 0; indexOx < arr2D[0].length; indexOx++) {
       for (let indexOy = 0; indexOy < arr2D[1].length; indexOy++) {
-        console.log("indexOx", arr2D[0][indexOx]);
-        console.log("indexOy", arr2D[1][indexOy]);
-        const arrayPoOVuong = {
+        // console.log("indexOx", arr2D[0][indexOx]);
+        // console.log("indexOy", arr2D[1][indexOy]);
+        const ojbPoOVuong = {
           _pOx: arr2D[0][indexOx],
           _pOy: arr2D[1][indexOy],
         };
-        arrayOVuong.push(arrayPoOVuong);
-        const oVuong = cc.Sprite.create(res.OVuong_png);
-        oVuong.setName(
-          nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "Oy_" + indexOy
-        );
-        // imgMinion.setPosition(0, 0);
-        oVuong.x = poCenter.pOx_center * (indexOx + 1);
-        oVuong.y = poCenter.pOy_center * (indexOy + 1);
-        // oVuong.setScale(1, 1);
-        this.addChild(oVuong, 0);
+        arrayOVuong.push(ojbPoOVuong);
+        const oVuongChirld = new OVuongHandleEventGame(indexOx, indexOy, this);
+        const setNameEntityOVuong =
+          nameChirldGameCaro.OVuong_Img +
+          "Ox_" +
+          indexOx +
+          "_" +
+          "Oy_" +
+          indexOy;
+        console.log("setNameEntityOVuong", setNameEntityOVuong);
+        oVuongChirld.setName(setNameEntityOVuong);
+        this.addChild(oVuongChirld, 0);
       }
     }
-    console.log("arrayPoOVuong>>", arrayOVuong);
+    console.log("arrayPoOVuong + Po", arrayOVuong);
+  },
+  //Nghe sự kiện đặt X - O  tại vị trí ô cờ nào:
+  //Xác định vị trí thằng con theo tên + chỉ số index Ox và Oy đã định nghĩa.
+  addListenerTouchMousePushX_O: function (parsedX, parsedY) {
+    console.log("Chọn vị trí:", parsedX, parsedY);
+    //Tâm ô vuông đầu tiên xác định = (40;40);
+    const poCenter = { pOx_center: 40, pOy_center: 40 };
+    const base = 10;
+    //Lấy vị trí IndexOx để lấy this ô vuông nhỏ:
+    const getIndex_Ox_SetToNameChirld = parseInt(
+      parsedX / poCenter.pOx_center,
+      base
+    );
+    const getIndex_Oy_SetToNameChirld = parseInt(
+      parsedY / poCenter.pOy_center,
+      base
+    );
+    console.log(
+      "Lấy tên thằng nhỏ để xác định this thằng nhỏ:",
+      getIndex_Ox_SetToNameChirld,
+      getIndex_Oy_SetToNameChirld
+    );
+    this.getChirldOVuongHandleClickMouse(
+      getIndex_Ox_SetToNameChirld,
+      getIndex_Oy_SetToNameChirld
+    );
+  },
+  //Lấy ô vuông nhỏ ra để thực thi 1 hành động khi ấn chuột vào tọa độ nó quản lý:
+  getChirldOVuongHandleClickMouse: function (indexOx, indexOy) {
+    const nameRepresentChirldOVuong =
+      nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
+    //Lấy thực thể Ô vuông:
+    const getEntityOVuong = this.getChildByName(nameRepresentChirldOVuong);
+    //Thực hiện actions:
+    getEntityOVuong.checkClickHere(indexOx, indexOy, this.flagX_O, this);
+  },
+  //Thay đổi cờ hiệu:
+  onChangeFlag: function () {
+    this.flagX_O = !this.flagX_O;
+  },
+  checkWinGame: function (nameEntityNeedCheckWin) {
+    console.log("Winnn", nameEntityNeedCheckWin);
+  },
+});
+
+var OVuongHandleEventGame = cc.Scene.extend({
+  ctor: function (indexOx, indexOy, father) {
+    this._super();
+    this.init(indexOx, indexOy);
+    this.clickHere = false;
+  },
+  init: function (indexOx, indexOy) {
+    //Khởi tạo hình vuông:
+    //Hình vuông xác định kích thước  = 80 *80;
+    const poCenter = { pOx_center: 40, pOy_center: 40 };
+    const oVuong = cc.Sprite.create(res.OVuongTrang_png);
+    const nameRepresentChirldOVuong =
+      nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
+    oVuong.x = poCenter.pOx_center * (indexOx + 1);
+    oVuong.y = poCenter.pOy_center * (indexOy + 1);
+    oVuong.setName(nameRepresentChirldOVuong);
+    this.addChild(oVuong, 0);
+  },
+  //Kiểm tra ấn chuột vào ô nào:
+  checkClickHere: function (indexOx, indexOy, flagX_O, father) {
+    this.changImgCreate(indexOx, indexOy, flagX_O, father);
+  },
+  //Thay đổi ảnh khởi tạo:
+  changImgCreate: function (indexOx, indexOy, flagX_O, father) {
+    const nameRepresentChirldOVuong =
+      nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
+    const oVuongRemove = this.getChildByName(nameRepresentChirldOVuong);
+    if (!this.clickHere) {
+      if (flagX_O) {
+        this.removeChild(oVuongRemove, true);
+        this.addImgRed(indexOx, indexOy, flagX_O, father);
+      } else {
+        this.removeChild(oVuongRemove, true);
+        this.addImgOrage(indexOx, indexOy, flagX_O, father);
+      }
+    }
+  },
+  addImgRed: function (indexOx, indexOy, flagX_O, father) {
+    const poCenter = { pOx_center: 40, pOy_center: 40 };
+    const oVuong = cc.Sprite.create(res.OVuongDo_png);
+    const nameRepresentChirldOVuong =
+      nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
+    oVuong.x = poCenter.pOx_center * (indexOx + 1);
+    oVuong.y = poCenter.pOy_center * (indexOy + 1);
+    oVuong.setName(nameRepresentChirldOVuong);
+    this.addChild(oVuong, 0);
+    this.clickHere = true;
+    father.onChangeFlag();
+  },
+  addImgOrage: function (indexOx, indexOy, flagX_O, father) {
+    const poCenter = { pOx_center: 40, pOy_center: 40 };
+    const oVuong = cc.Sprite.create(res.OVuongCam_png);
+    const nameRepresentChirldOVuong =
+      nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
+    oVuong.x = poCenter.pOx_center * (indexOx + 1);
+    oVuong.y = poCenter.pOy_center * (indexOy + 1);
+    oVuong.setName(nameRepresentChirldOVuong);
+    this.addChild(oVuong, 0);
+    this.clickHere = true;
+    father.onChangeFlag();
   },
 });
