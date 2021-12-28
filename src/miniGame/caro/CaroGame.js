@@ -353,9 +353,48 @@ var TableCaroInit = cc.Scene.extend({
   onChangeFlag: function () {
     this.flagX_O = !this.flagX_O;
   },
-  checkWinGame: function (nameEntityNeedCheckWin) {
-    console.log("Winnn", nameEntityNeedCheckWin);
+  checkWinGame: function (indexOx, indexOy, flagX_O) {
+    console.log("Winnn", indexOx, indexOy, flagX_O);
+    const arrayFlagOx = [];
+    const arrayFlagOy = [];
+    //Điểm chung tâm cần xét xác ô vuông còn lại:
+    const poSquareCenter = {
+      po_X: indexOx,
+      po_Y: indexOy,
+    };
+    console.log("poSquareCenter", poSquareCenter);
+    //Xét trên trục Ox : từ x -3 đền x + 3;
+    for (var indexArrayFlagOx = -4; indexArrayFlagOx <= 4; indexArrayFlagOx++) {
+      console.log("indexArrayFlagOx", indexArrayFlagOx);
+      const po_X = poSquareCenter.po_X + indexArrayFlagOx;
+      const po_Y = poSquareCenter.po_Y;
+      const nameRepresent =
+        nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
+      const getEntity = this.getChildByName(nameRepresent);
+      console.log("getEntity", getEntity);
+      console.log("getEntity.flagX_O", getEntity.flagX_O);
+      arrayFlagOx.push(getEntity.flagX_O);
+    }
+    console.log("Trạng thái mảng ban đầu:", arrayFlagOx);
+    //Khởi tạo mảng ban đầu có 5 phần tử để check trùng trạng thái:
+    const arrayCheckWiner = [
+      arrayFlagOx[0],
+      arrayFlagOx[1],
+      arrayFlagOx[2],
+      arrayFlagOx[3],
+      arrayFlagOx[4],
+    ];
+    console.log("Mảng duyệt trùng:", arrayCheckWiner);
+    for (
+      var checkFourNumber = 0;
+      checkFourNumber < arrayFlagOx.length;
+      checkFourNumber++
+    ) {
+
+    }
+    // this.removeAllChildren();
   },
+  youWinScreen: function () {},
 });
 
 var OVuongHandleEventGame = cc.Scene.extend({
@@ -363,6 +402,7 @@ var OVuongHandleEventGame = cc.Scene.extend({
     this._super();
     this.init(indexOx, indexOy);
     this.clickHere = false;
+    this.flagX_O = null; //Cờ hiệu báo điền trạng thái X - O.
   },
   init: function (indexOx, indexOy) {
     //Khởi tạo hình vuông:
@@ -387,11 +427,15 @@ var OVuongHandleEventGame = cc.Scene.extend({
     const oVuongRemove = this.getChildByName(nameRepresentChirldOVuong);
     if (!this.clickHere) {
       if (flagX_O) {
+        this.flagX_O = "X_Flag";
         this.removeChild(oVuongRemove, true);
         this.addImgRed(indexOx, indexOy, flagX_O, father);
+        father.checkWinGame(indexOx, indexOy, this.flagX_O);
       } else {
+        this.flagX_O = "O_Flag";
         this.removeChild(oVuongRemove, true);
         this.addImgOrage(indexOx, indexOy, flagX_O, father);
+        father.checkWinGame(indexOx, indexOy, this.flagX_O);
       }
     }
   },
