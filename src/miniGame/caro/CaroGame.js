@@ -1,4 +1,4 @@
-const nameChirldGameCaro = {
+var nameChirldGameCaro = {
   Img_MiniOn: "Img_Minion",
   Text_Caro: "Text_Caro",
   Loa_Left_Img: "Loa_Img_Left",

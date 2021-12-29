@@ -211,71 +211,65 @@ var TableCaroInit = cc.Scene.extend({
   },
   //Kiểm tra chặn đầu cuối của 4 ô:
   checkBlockHeadFourSquare: function (arrayFourFlagSame, poSquareCenter) {
-    console.log("arrayFourFlagSame", arrayFourFlagSame);
-    console.log("poSquareCenter", poSquareCenter);
-    var directionFourSquare = null;
-    //Check điểm chặn bên trái hoặc phải ô vuông trung tâm:
-    const getIndexCenterInArr = arrayFourFlagSame.findIndex(
-      (item) => item.po_X == poSquareCenter.po_X
-    );
-    console.log("Index của điểm trung tâm:", getIndexCenterInArr);
-    if (getIndexCenterInArr > 1) {
-      //Nếu mảng nằm bên trái => thì check ô số -4 và ô phải + 1;
-      directionFourSquare = "Left";
-      var flagRightPlus1 = false; //Cờ ô phải + 1;
-      var flagLeftMinus4 = false; //Cờ ô trái -4;
-      //Kiểm tra case 1:
-      //Ô phải trung tâm +1:
-      const squareRightCenterPlus1 = {
-        po_X: poSquareCenter.po_X + 1,
-        po_Y: poSquareCenter.po_Y,
-        flag: null,
-      };
-      const nameRepresentRightCenterPlus1 =
-        nameChirldGameCaro.OVuong_Img +
-        "Ox_" +
-        squareRightCenterPlus1.po_X +
-        "_" +
-        "Oy_" +
-        squareRightCenterPlus1.po_Y;
-      const getEntityRightPlus1 = this.getChildByName(
-        nameRepresentRightCenterPlus1
-      );
-      squareRightCenterPlus1.flag = getEntityRightPlus1.flagX_O;
-      if (!squareRightCenterPlus1.flag) {
-        // console.log("Bên phải + 1:", squareRightCenterPlus1);
-        flagRightPlus1 = true;
-      }
-      //Trái trung tâm -4:
-      const squareLeftCenterMinus4 = {
-        po_X: poSquareCenter.po_X - 4,
-        po_Y: poSquareCenter.po_Y,
-        flag: null,
-      };
-      const nameRepresentLeftCenterMinus4 =
-        nameChirldGameCaro.OVuong_Img +
-        "Ox_" +
-        squareLeftCenterMinus4.po_X +
-        "_" +
-        "Oy_" +
-        squareLeftCenterMinus4.po_Y;
-      const getEntityLeftMinus4 = this.getChildByName(
-        nameRepresentLeftCenterMinus4
-      );
-      squareLeftCenterMinus4.flag = getEntityLeftMinus4.flagX_O;
-      if (!squareLeftCenterMinus4.flag) {
-        // console.log("Bên trái - 4:", squareLeftCenterMinus4);
-        flagLeftMinus4 = true;
-      }
-      if (flagRightPlus1 && flagLeftMinus4) {
-        return true;
-      }
-      // Case 2 flag giống ô trung tâm thì win (Case 5 điểm):
+    // console.log("arrayFourFlagSame", arrayFourFlagSame);
+    // console.log("poSquareCenter", poSquareCenter);
+    //Xác định vị trí ô vuông đầu và cuối trong mảng:
+    var blockFleft = null; //Chặn đầu.
+    var blockRight = null; //Chặn cuối.
+    const squareStart = arrayFourFlagSame[0];
+    const squareStartEnd = arrayFourFlagSame[arrayFourFlagSame.length - 1];
+    console.log("Điểm đầu:", squareStart);
+    console.log("Điểm cuối:", squareStartEnd);
+    //Trường hợp 1: Không có chặn đầu và chặn cuối:
+    const squareBlockLeft = {
+      po_X: squareStart.po_X - 1,
+      po_Y: squareStart.po_Y,
+      flag: null,
+    };
+    //Lấy khối + cờ hiệu trái:
+    const nameSquareBlockLeft =
+      nameChirldGameCaro.OVuong_Img +
+      "Ox_" +
+      squareBlockLeft.po_X +
+      "_" +
+      "Oy_" +
+      squareBlockLeft.po_Y;
+    //Khối hộp chặn trái:
+    const entitySquareBlockLeft = this.getChildByName(nameSquareBlockLeft);
+    squareBlockLeft.flag = entitySquareBlockLeft.flagX_O;
+    if (!squareBlockLeft.flag) {
+      blockFleft = false;
     } else {
-      directionFourSquare = "Right";
+      blockFleft = true;
     }
- 
-    return true;
+    //Lấy khối + cờ hiệu phải:
+    const squareBlockRight = {
+      po_X: squareStartEnd.po_X + 1,
+      po_Y: squareStartEnd.po_Y,
+      flag: null,
+    };
+    //Lấy khối + cờ hiệu:
+    const nameSquareBlockRight =
+      nameChirldGameCaro.OVuong_Img +
+      "Ox_" +
+      squareBlockRight.po_X +
+      "_" +
+      "Oy_" +
+      squareBlockRight.po_Y;
+    //Khối hộp chặn trái:
+    const entitySquareBlockRight = this.getChildByName(nameSquareBlockRight);
+    squareBlockRight.flag = entitySquareBlockRight.flagX_O;
+    if (!squareBlockRight.flag) {
+      blockRight = false;
+    } else {
+      blockRight = true;
+    }
+    console.log("Khối chặn đầu trái:", squareBlockLeft);
+    console.log("Khối chặn đầu phải:", squareBlockRight);
+    console.log("Chặn đầu chặn cuối:", blockFleft, blockRight);
+    if (!blockFleft && !blockRight) {
+      return true;
+    }
   },
   youWinScreen: function () {
     console.log("%c Bạn thắng cmnr!", "color:red");
