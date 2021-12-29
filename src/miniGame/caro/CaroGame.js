@@ -362,39 +362,44 @@ var TableCaroInit = cc.Scene.extend({
       po_X: indexOx,
       po_Y: indexOy,
     };
-    console.log("poSquareCenter", poSquareCenter);
+    // console.log("poSquareCenter", poSquareCenter);
     //Xét trên trục Ox : từ x -3 đền x + 3;
     for (var indexArrayFlagOx = -4; indexArrayFlagOx <= 4; indexArrayFlagOx++) {
-      console.log("indexArrayFlagOx", indexArrayFlagOx);
       const po_X = poSquareCenter.po_X + indexArrayFlagOx;
       const po_Y = poSquareCenter.po_Y;
       const nameRepresent =
         nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
       const getEntity = this.getChildByName(nameRepresent);
-      console.log("getEntity", getEntity);
-      console.log("getEntity.flagX_O", getEntity.flagX_O);
       arrayFlagOx.push(getEntity.flagX_O);
     }
-    console.log("Trạng thái mảng ban đầu:", arrayFlagOx);
-    //Khởi tạo mảng ban đầu có 5 phần tử để check trùng trạng thái:
-    const arrayCheckWiner = [
-      arrayFlagOx[0],
-      arrayFlagOx[1],
-      arrayFlagOx[2],
-      arrayFlagOx[3],
-      arrayFlagOx[4],
-    ];
-    console.log("Mảng duyệt trùng:", arrayCheckWiner);
-    for (
-      var checkFourNumber = 0;
-      checkFourNumber < arrayFlagOx.length;
-      checkFourNumber++
-    ) {
-
+    //Kiểm tra mảng check trùng trạng thái:
+    //Trường hợp 1: 4 phần tử liên tiếp trùng nhau và không có chặn đầu theo trục Ox:
+    const arrNeedCheckSame = arrayFlagOx;
+    const arrayFour = [null, null, null, null];
+    var winFourOVuong = false;
+    for (var indexSame = 0; indexSame < arrNeedCheckSame.length; indexSame++) {
+      const element = arrNeedCheckSame[indexSame];
+      const isCheckSameX_Flag = (value) => value == "X_Flag";
+      const isCheckSameO_Flag = (value) => value == "O_Flag";
+      //Đẩy 1 phần tử vào cuối rồi bỏ 1 phần tử đầu đi sẽ giữ lại mảng có 4 phần tử.
+      arrayFour.push(element);
+      arrayFour.shift();
+      //Kiểm tra cờ hiệu liên tiếp của 4 phần tử có giống nhau không. 
+      const isSameX_Flag = arrayFour.every(isCheckSameX_Flag);
+      const isSameO_Flag =  arrayFour.every(isCheckSameO_Flag);
+      if (isSameX_Flag || isSameO_Flag) {
+        winFourOVuong = true;
+        break;
+      }
     }
-    // this.removeAllChildren();
+    if (winFourOVuong) {
+      this.youWinScreen();
+    }
   },
-  youWinScreen: function () {},
+  youWinScreen: function () {
+    console.log("%c Bạn thắng cmnr!", "color:red");
+    this.removeAllChildren();
+  },
 });
 
 var OVuongHandleEventGame = cc.Scene.extend({
