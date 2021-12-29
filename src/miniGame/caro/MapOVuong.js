@@ -218,8 +218,6 @@ var TableCaroInit = cc.Scene.extend({
     var blockRight = null; //Chặn cuối.
     const squareStart = arrayFourFlagSame[0];
     const squareStartEnd = arrayFourFlagSame[arrayFourFlagSame.length - 1];
-    console.log("Điểm đầu:", squareStart);
-    console.log("Điểm cuối:", squareStartEnd);
     //Trường hợp 1: Không có chặn đầu và chặn cuối:
     const squareBlockLeft = {
       po_X: squareStart.po_X - 1,
@@ -264,11 +262,25 @@ var TableCaroInit = cc.Scene.extend({
     } else {
       blockRight = true;
     }
-    console.log("Khối chặn đầu trái:", squareBlockLeft);
-    console.log("Khối chặn đầu phải:", squareBlockRight);
-    console.log("Chặn đầu chặn cuối:", blockFleft, blockRight);
+    //Trường hợp không có khối chặn:
     if (!blockFleft && !blockRight) {
       return true;
+    } else {
+      //Trường hợp có khối chặn tạo 5 khối cùng flag liền nhau:
+      //Chặn trái:
+      if (blockFleft) {
+        // console.log("Khối chặn trái:", squareBlockLeft);
+        if (squareBlockLeft.flag === squareStart.flag) {
+          return true;
+        }
+      }
+      //Chặn phải:
+      if (blockRight) {
+        // console.log("Khối chặn phải:", squareBlockRight);
+        if (squareBlockRight.flag === squareStartEnd.flag) {
+          return true;
+        }
+      }
     }
   },
   youWinScreen: function () {
