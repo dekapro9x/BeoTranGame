@@ -37,8 +37,20 @@ Tỷ lệ ô trống con là 80*80=> Tâm = 40*40.
 Với tỷ lệ này mảng 2 chiều vẽ được 1 màn hình có số lượng ô trống là 23(Ox) * 15(Oy) = 345 ô.
 Chia nhỏ các trường hợp ta sẽ có các bước để xác định chiến thắng:
 Bước 1: Xác định tâm điểm là điểm được gắn cờ mới nhất.
-Bước 2: Xác định giới hạn bản đồ, áp dụng bài toán 1 tâm 8 hướng với size win =4.
+Bước 2: Xác định giới hạn bản đồ, áp dụng bài toán 1 tâm 8 hướng với size win = 4.
 Bước 3: Xác định dãy cờ hiệu trên trục Ox, Oy, 2 đường tréo theo công thức tổng quát.
+# Truc Ox:
++ Xác định vùng tự do từ 5 => 19.
+Vùng giới hạn: 
++ Mép trái từ 0 => 4
++ Mép phải từ 19 => 24
+# Truc Oy:
++ Xác định vùng tự do từ 5 => 15.
+Vùng giới hạn: 
++ Mép trên từ 0 => 4
++ Mép phải từ 15 => 11
+# Đường tréo:
+
 Kiểm tra trường hợp chặn 2 đầu và chặn 1 đầu trùng cờ tạo 5 điểm.
 Bước 4: Phân tích dãy cờ và xác định trùng nhau hay không => Xử lý mảng.
 Bước 5: Hoàn thiện.
