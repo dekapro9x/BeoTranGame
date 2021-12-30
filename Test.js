@@ -1,8 +1,7 @@
 if (getIndexCenterInArr > 1) {
   //Nếu mảng nằm bên trái => thì check ô số -4 và ô phải + 1;
   directionFourSquare = "Left";
-  var flagRightPlus1 = false; //Cờ ô phải + 1;
-  var flagLeftMinus4 = false; //Cờ ô trái -4;
+
   //Kiểm tra case 1:
   //Ô phải trung tâm +1:
   const squareRightCenterPlus1 = {

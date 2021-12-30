@@ -99,11 +99,11 @@ var TableCaroInit = cc.Scene.extend({
       parsedY / poCenter.pOy_center,
       base
     );
-    console.log(
-      "Lấy tên thằng nhỏ để xác định this thằng nhỏ:",
-      getIndex_Ox_SetToNameChirld,
-      getIndex_Oy_SetToNameChirld
-    );
+    // console.log(
+    //   "Lấy tên thằng nhỏ để xác định this thằng nhỏ:",
+    //   getIndex_Ox_SetToNameChirld,
+    //   getIndex_Oy_SetToNameChirld
+    // );
     this.getChirldOVuongHandleClickMouse(
       getIndex_Ox_SetToNameChirld,
       getIndex_Oy_SetToNameChirld
@@ -125,17 +125,23 @@ var TableCaroInit = cc.Scene.extend({
   checkWinGame: function (indexOx, indexOy) {
     //Kiểm tra trên trục Ox:
     this.checkWinGameOx(indexOx, indexOy);
+    //Kiểm tra trên trục Oy:
+    // this.checkWinGameOy(indexOx, indexOy);
   },
   checkWinGameOx: function (indexOx, indexOy) {
-    console.log("indexOx, indexOy", indexOx, indexOy);
+    console.log("%c Tạo độ điểm trên Ox:", "color:red", indexOx, indexOy);
     const arrayFlagOx = [];
+    //Khoảng cách liên tiếp ô nếu trùng cờ thì thắng:
+    const sizeWin = 4;
+    //Điểm giới hạn trên Ox để tính tại ô vuông trung tâm lùi về 4 => maxPoX;
+    const maxPoX = 23;
     //Điểm chung tâm cần xét xác ô vuông còn lại:
     const poSquareCenter = {
       po_X: indexOx,
       po_Y: indexOy,
       flag: null,
     };
-    //Lấy cờ của ô vuông trung tâm:
+    //Lấy flag của ô vuông trung tâm:
     const nameRepresentCenter =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -145,11 +151,11 @@ var TableCaroInit = cc.Scene.extend({
       poSquareCenter.po_Y;
     const getEntityCenter = this.getChildByName(nameRepresentCenter);
     poSquareCenter.flag = getEntityCenter.flagX_O;
-    //Xét trên trục Ox : từ x -3 đền x + 3 điều kiện từ ô số 5 đổ đi theo trục Ox:
-    if (indexOx >= 4) {
+    //Xét trên trục Ox : từ x -3 đến x + 3 điều kiện từ ô số 5 đổ đi theo trục Ox:
+    if (indexOx >= 4 && indexOx < maxPoX - sizeWin) {
       for (
-        var indexArrayFlagOx = -4;
-        indexArrayFlagOx <= 4;
+        var indexArrayFlagOx = -sizeWin;
+        indexArrayFlagOx <= sizeWin;
         indexArrayFlagOx++
       ) {
         const po_X = poSquareCenter.po_X + indexArrayFlagOx;
@@ -161,26 +167,47 @@ var TableCaroInit = cc.Scene.extend({
         arrayFlagOx.push(entity);
       }
     }
-    //Với trường hợp sát mép với 3 ô sát lề:
+    //Trường hợp sát mép với 3 ô sát lề trái:
     else {
-      for (
-        var indexArrayFlagOx = -indexOx;
-        indexArrayFlagOx <= 4;
-        indexArrayFlagOx++
-      ) {
-        const po_X = poSquareCenter.po_X + indexArrayFlagOx;
-        const po_Y = poSquareCenter.po_Y;
-        const nameRepresent =
-          nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
-        const getEntity = this.getChildByName(nameRepresent);
-        const entity = { po_X: po_X, po_Y: po_Y, flag: getEntity.flagX_O };
-        arrayFlagOx.push(entity);
+      //Giới hạn lề bên phải trục Ox là 23 ô - 4 = 19 ô.
+      if (indexOx <= 19) {
+        for (
+          var indexArrayFlagOx = -indexOx;
+          indexArrayFlagOx <= sizeWin;
+          indexArrayFlagOx++
+        ) {
+          const po_X = poSquareCenter.po_X + indexArrayFlagOx;
+          const po_Y = poSquareCenter.po_Y;
+          const nameRepresent =
+            nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
+          const getEntity = this.getChildByName(nameRepresent);
+          const entity = { po_X: po_X, po_Y: po_Y, flag: getEntity.flagX_O };
+          arrayFlagOx.push(entity);
+        }
+      } else {
+        //Mép phải giới hạn bởi ô số 23 sẽ tính lùi về 4 ô so vs điểm trung tâm đến mép 23:
+        for (
+          var indexArrayFlagOx = indexOx - sizeWin;
+          indexArrayFlagOx <= maxPoX;
+          indexArrayFlagOx++
+        ) {
+          const po_X = indexArrayFlagOx;
+          const po_Y = poSquareCenter.po_Y;
+          const nameRepresent =
+            nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
+          const getEntity = this.getChildByName(nameRepresent);
+          const entity = { po_X: po_X, po_Y: po_Y, flag: getEntity.flagX_O };
+          arrayFlagOx.push(entity);
+        }
       }
     }
     //Kiểm tra mảng check trùng trạng thái:
     //Trường hợp 1: 4 phần tử liên tiếp trùng nhau và không có chặn đầu theo trục Ox:
     const arrNeedCheckSame = arrayFlagOx;
-    // console.log("arrNeedCheckSame", arrNeedCheckSame);
+    console.log(
+      "Mảng cấn kiểm tra cờ trùng nhau trên trục Ox:",
+      arrNeedCheckSame
+    );
     const arrayFourFlagSame = [null, null, null, null];
     var winFourOVuong = false;
     for (var indexSame = 0; indexSame < arrNeedCheckSame.length; indexSame++) {
@@ -194,11 +221,7 @@ var TableCaroInit = cc.Scene.extend({
       const isSameX_Flag = arrayFourFlagSame.every(isCheckSameX_Flag);
       const isSameO_Flag = arrayFourFlagSame.every(isCheckSameO_Flag);
       if (isSameX_Flag || isSameO_Flag) {
-        console.log(
-          "Mảng 4 phần tử liên tiếp trùng cờ Flag:",
-          arrayFourFlagSame
-        );
-        winFourOVuong = this.checkBlockHeadFourSquare(
+        winFourOVuong = this.checkBlockHeadFourSquareOx(
           arrayFourFlagSame,
           poSquareCenter
         );
@@ -210,9 +233,7 @@ var TableCaroInit = cc.Scene.extend({
     }
   },
   //Kiểm tra chặn đầu cuối của 4 ô:
-  checkBlockHeadFourSquare: function (arrayFourFlagSame, poSquareCenter) {
-    // console.log("arrayFourFlagSame", arrayFourFlagSame);
-    // console.log("poSquareCenter", poSquareCenter);
+  checkBlockHeadFourSquareOx: function (arrayFourFlagSame, poSquareCenter) {
     //Xác định vị trí ô vuông đầu và cuối trong mảng:
     var blockFleft = null; //Chặn đầu.
     var blockRight = null; //Chặn cuối.
@@ -269,19 +290,76 @@ var TableCaroInit = cc.Scene.extend({
       //Trường hợp có khối chặn tạo 5 khối cùng flag liền nhau:
       //Chặn trái:
       if (blockFleft) {
-        // console.log("Khối chặn trái:", squareBlockLeft);
         if (squareBlockLeft.flag === squareStart.flag) {
           return true;
         }
       }
       //Chặn phải:
       if (blockRight) {
-        // console.log("Khối chặn phải:", squareBlockRight);
         if (squareBlockRight.flag === squareStartEnd.flag) {
           return true;
         }
       }
     }
+  },
+  checkWinGameOy: function (indexOx, indexOy) {
+    console.log("Vị trí trên trục Oy:", indexOx, indexOy);
+    const arrayFlagOy = [];
+    const sizeWin = 4;
+    //Điểm giới hạn trục Oy:
+    const maxPoY = 15;
+    //Điểm chung tâm cần xét xác ô vuông còn lại:
+    const poSquareCenter = {
+      po_X: indexOx,
+      po_Y: indexOy,
+      flag: null,
+    };
+    console.log("Tâm điểm trên trục Oy:", poSquareCenter);
+    //Lấy flag của ô vuông trung tâm:
+    const nameRepresentCenter =
+      nameChirldGameCaro.OVuong_Img +
+      "Ox_" +
+      poSquareCenter.po_X +
+      "_" +
+      "Oy_" +
+      poSquareCenter.po_Y;
+    const getEntityCenter = this.getChildByName(nameRepresentCenter);
+    poSquareCenter.flag = getEntityCenter.flagX_O;
+    console.log("Điểm trung tâm:", poSquareCenter);
+    //Xét trên trục Oy : từ y -3 đền y + 3 điều kiện từ ô số 5 đổ đi theo trục Oy:
+    if (indexOy >= 4 && indexOy < maxPoY) {
+      for (
+        var indexArrayFlagOy = -4;
+        indexArrayFlagOy <= 4;
+        indexArrayFlagOy++
+      ) {
+        console.log("Oy chạy từ -4 đến 4", indexArrayFlagOy);
+        const po_X = poSquareCenter.po_X;
+        const po_Y = poSquareCenter.po_Y + indexArrayFlagOy;
+        const nameRepresent =
+          nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
+        const getEntity = this.getChildByName(nameRepresent);
+        const entity = { po_X: po_X, po_Y: po_Y, flag: getEntity.flagX_O };
+        arrayFlagOy.push(entity);
+      }
+    }
+    //Trường hợp sát lề 3 ô mép:
+    else {
+      for (
+        var indexArrayFlagOy = -indexOy;
+        indexArrayFlagOy <= 3;
+        indexArrayFlagOy++
+      ) {
+        const po_X = poSquareCenter.po_X;
+        const po_Y = poSquareCenter.po_Y + indexArrayFlagOy;
+        const nameRepresent =
+          nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
+        const getEntity = this.getChildByName(nameRepresent);
+        const entity = { po_X: po_X, po_Y: po_Y, flag: getEntity.flagX_O };
+        arrayFlagOx.push(entity);
+      }
+    }
+    console.log("arrayFlagOy", arrayFlagOy);
   },
   youWinScreen: function () {
     console.log("%c Bạn thắng cmnr!", "color:red");
