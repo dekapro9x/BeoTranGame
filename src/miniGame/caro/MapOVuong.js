@@ -151,6 +151,7 @@ var TableCaroInit = cc.Scene.extend({
       poSquareCenter.po_Y;
     const getEntityCenter = this.getChildByName(nameRepresentCenter);
     poSquareCenter.flag = getEntityCenter.flagX_O;
+    //Trường hợp nằm mép trong lề trái > 5 ô và <19 ô lề phải.
     //Xét trên trục Ox : từ x -3 đến x + 3 điều kiện từ ô số 5 đổ đi theo trục Ox:
     if (indexOx >= 4 && indexOx < maxPoX - sizeWin) {
       for (
@@ -169,8 +170,8 @@ var TableCaroInit = cc.Scene.extend({
     }
     //Trường hợp sát mép với 3 ô sát lề trái:
     else {
-      //Giới hạn lề bên phải trục Ox là 23 ô - 4 = 19 ô.
-      if (indexOx <= 19) {
+      //Trường hợp sát mép lề trái < 4 ô:
+      if (indexOx < 4) {
         for (
           var indexArrayFlagOx = -indexOx;
           indexArrayFlagOx <= sizeWin;
@@ -185,7 +186,7 @@ var TableCaroInit = cc.Scene.extend({
           arrayFlagOx.push(entity);
         }
       } else {
-        //Mép phải giới hạn bởi ô số 23 sẽ tính lùi về 4 ô so vs điểm trung tâm đến mép 23:
+        //Giới hạn mép lề bên phải trục Ox là 23 ô - 4 = 19 ô.
         for (
           var indexArrayFlagOx = indexOx - sizeWin;
           indexArrayFlagOx <= maxPoX;
