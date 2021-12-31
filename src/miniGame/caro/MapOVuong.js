@@ -121,9 +121,9 @@ var TableCaroInit = cc.Scene.extend({
     //Kiểm tra trên trục Ox:
     // this.checkWinGameOx(indexOx, indexOy);
     //Kiểm tra trên trục Oy:
-    this.checkWinGameOy(indexOx, indexOy);
+    // this.checkWinGameOy(indexOx, indexOy);
     //Kiểm tra trên đường chéo trái đi qua tâm:
-    // this.checkWinGameLeftDiagonal(indexOx, indexOy);
+    this.checkWinGameLeftDiagonal(indexOx, indexOy);
     //Kiểm tra trên đường chéo phải đi qua tâm:
     // this.checkWinGameRightDiagonal(indexOx, indexOy);
   },
@@ -433,7 +433,7 @@ var TableCaroInit = cc.Scene.extend({
   },
   //Kiểm tra chặn đầu trên dưới của 4 ô giống nhau trục Oy:
   checkBlockHeadFourSquareOy: function (arrayFourFlagSame) {
-    console.log("arrayFourFlagSameOy", arrayFourFlagSame);
+    // console.log("arrayFourFlagSameOy", arrayFourFlagSame);
     //Xác định vị trí ô vuông đầu và cuối trong mảng:
     var blockOnOy = null; //Chặn trên phương Oy.
     var blockDownOy = null; //Chặn dưới phương Oy.
@@ -453,7 +453,7 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareBlockOnOy.po_Y;
-    //Khối hộp chặn trên:
+    //Khối hộp chặn trên Oy:
     const entitySquareBlockOn = this.getChildByName(nameSquareBlockOn);
     if (entitySquareBlockOn) {
       squareBlockOnOy.flag = entitySquareBlockOn.flagX_O;
@@ -463,13 +463,13 @@ var TableCaroInit = cc.Scene.extend({
         blockOnOy = true;
       }
     }
-    //Lấy khối + cờ hiệu bên dưới:
+    //Khối vuông chặn dưới Oy:
     const squareBlockDownOy = {
       po_X: squareStartEnd.po_X,
       po_Y: squareStartEnd.po_Y + 1,
       flag: null,
     };
-    //Lấy khối + cờ hiệu:
+    //Tên ô vuông chặn dưới Oy:
     const nameSquareBlockDown =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -477,7 +477,7 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareBlockDownOy.po_Y;
-    //Khối hộp chặn phải:
+    //This khối vuông chặn dưới Oy:
     const entitySquareBlockDown = this.getChildByName(nameSquareBlockDown);
     if (entitySquareBlockDown) {
       squareBlockDownOy.flag = entitySquareBlockDown.flagX_O;
