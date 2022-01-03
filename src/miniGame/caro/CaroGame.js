@@ -13,6 +13,8 @@ var GameCaroInit = cc.Scene.extend({
     this.init();
   },
   init: function () {
+    //Nhạc nền:
+    this.musicGameBackGround();
     this.isZoomBtnStart = false;
     const that = this;
     const size = cc.winSize;
@@ -92,6 +94,12 @@ var GameCaroInit = cc.Scene.extend({
       );
     }
   },
+  musicGameBackGround: function () {
+    cc.audioEngine.playMusic(res.backGround_Music);
+  },
+  stopMucsicBackGround: function () {
+    cc.audioEngine.stopMusic();
+  },
   handleZoomBtnStart: function (parsedX, parsedY) {
     const entityBtnStart = this.getChildByName(
       nameChirldGameCaro.Start_Game_Btn
@@ -167,6 +175,7 @@ var GameCaroInit = cc.Scene.extend({
     }
   },
   clickStartGame: function (parsedX, parsedY) {
+    this.stopMucsicBackGround();
     const entityButtonStartGame = this.getChildByName(
       nameChirldGameCaro.Start_Game_Btn
     );
@@ -206,7 +215,3 @@ function checkSpaceClickMouseEntity(thisClass, scaleInput, xPoClick, yPoClick) {
     return false;
   }
 }
-
-
-
-
