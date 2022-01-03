@@ -118,11 +118,11 @@ var TableCaroInit = cc.Scene.extend({
   },
   checkWinGame: function (indexOx, indexOy) {
     //Kiểm tra trục Ox:
-    // this.checkWinGameOx(indexOx, indexOy);
+    this.checkWinGameOx(indexOx, indexOy);
     //Kiểm tra trên trục Oy:
-    // this.checkWinGameOy(indexOx, indexOy);
+    this.checkWinGameOy(indexOx, indexOy);
     //Kiểm tra trên đường chéo trái đi qua tâm:
-    // this.checkWinGameLeftDiagonal(indexOx, indexOy);
+    this.checkWinGameLeftDiagonal(indexOx, indexOy);
     //Kiểm tra trên đường chéo phải đi qua tâm:
     this.checkWinGameRightDiagonal(indexOx, indexOy);
   },
@@ -147,7 +147,7 @@ var TableCaroInit = cc.Scene.extend({
     //This của điểm trung tâm:
     const entitySquareCenterOx = this.getChildByName(nameSquareCenterOx);
     //Cờ hiệu điểm trung tâm:
-    squareCenterOx.flag = entitySquareCenterOx.flagX_O;
+    squareCenterOx.flag = entitySquareCenterOx?.flagX_O;
     console.log("%c Điểm trung tâm Ox:", "color:blue", squareCenterOx);
     const minOxCheck = indexOx - lengSquareConsecutive; //Vị trí đầu tiên cần kiểm tra.
     const maxOxCheck = indexOx + lengSquareConsecutive; //Vị trí cuối cùng cần kiểm tra.
@@ -166,7 +166,7 @@ var TableCaroInit = cc.Scene.extend({
       const nameRepresent =
         nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
       const entitySquareOX = this.getChildByName(nameRepresent);
-      const entity = { po_X: po_X, po_Y: po_Y, flag: entitySquareOX.flagX_O };
+      const entity = { po_X: po_X, po_Y: po_Y, flag: entitySquareOX?.flagX_O };
       arrayFlagOx.push(entity);
     }
     //Danh sách ô vuông liên tiếp cần kiểm tra:
@@ -222,7 +222,7 @@ var TableCaroInit = cc.Scene.extend({
     //Khối hộp chặn trái Ox:
     const entitySquareBlockLeft = this.getChildByName(nameSquareBlockLeft);
     if (entitySquareBlockLeft) {
-      squareBlockLeftOx.flag = entitySquareBlockLeft.flagX_O;
+      squareBlockLeftOx.flag = entitySquareBlockLeft?.flagX_O;
       if (!squareBlockLeftOx.flag) {
         blockLeftOx = false;
       } else {
@@ -246,7 +246,7 @@ var TableCaroInit = cc.Scene.extend({
     //Khối hộp chặn phải Ox:
     const entitySquareBlockRight = this.getChildByName(nameSquareBlockRight);
     if (entitySquareBlockRight) {
-      squareBlockRight.flag = entitySquareBlockRight.flagX_O;
+      squareBlockRight.flag = entitySquareBlockRight?.flagX_O;
       if (!squareBlockRight.flag) {
         blockRightOx = false;
       } else {
@@ -293,7 +293,7 @@ var TableCaroInit = cc.Scene.extend({
       "Oy_" +
       squareCenterOy.po_Y;
     const entityCenter = this.getChildByName(nameSquareCenterOy);
-    squareCenterOy.flag = entityCenter.flagX_O;
+    squareCenterOy.flag = entityCenter?.flagX_O;
     console.log(
       "%c Điểm trung tâm cần kiêm tra trục Ox:",
       "color:blue",
@@ -316,7 +316,7 @@ var TableCaroInit = cc.Scene.extend({
       const nameRepresent =
         nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
       const entitySquareOY = this.getChildByName(nameRepresent);
-      const entity = { po_X: po_X, po_Y: po_Y, flag: entitySquareOY.flagX_O };
+      const entity = { po_X: po_X, po_Y: po_Y, flag: entitySquareOY?.flagX_O };
       arrayFlagOy.push(entity);
     }
     //Kiểm tra mảng check trùng trạng thái:
@@ -368,7 +368,7 @@ var TableCaroInit = cc.Scene.extend({
     //Khối hộp chặn trên Oy:
     const entitySquareBlockOn = this.getChildByName(nameSquareBlockOn);
     if (entitySquareBlockOn) {
-      squareBlockOnOy.flag = entitySquareBlockOn.flagX_O;
+      squareBlockOnOy.flag = entitySquareBlockOn?.flagX_O;
       if (!squareBlockOnOy.flag) {
         blockOnOy = false;
       } else {
@@ -392,7 +392,7 @@ var TableCaroInit = cc.Scene.extend({
     //This khối vuông chặn dưới Oy:
     const entitySquareBlockDown = this.getChildByName(nameSquareBlockDown);
     if (entitySquareBlockDown) {
-      squareBlockDownOy.flag = entitySquareBlockDown.flagX_O;
+      squareBlockDownOy.flag = entitySquareBlockDown?.flagX_O;
       if (!squareBlockDownOy.flag) {
         blockDownOy = false;
       } else {
@@ -438,7 +438,7 @@ var TableCaroInit = cc.Scene.extend({
       "Oy_" +
       squareCenter.po_Y;
     const getEntityCenter = this.getChildByName(nameSquareCenter);
-    squareCenter.flag = getEntityCenter.flagX_O;
+    squareCenter.flag = getEntityCenter?.flagX_O;
     console.log("Điển trung tâm đường chéo trái:", squareCenter);
     const minOxCheck = indexOx - 3; //Vị trí đầu tiên cần kiểm tra.
     const maxOxCheck = indexOx + 3; //Vị trí cuối cùng cần kiểm tra.
@@ -467,7 +467,7 @@ var TableCaroInit = cc.Scene.extend({
       const entity = {
         po_X: po_X,
         po_Y: po_Y,
-        flag: entitySquareLeftDiagonal.flagX_O,
+        flag: entitySquareLeftDiagonal?.flagX_O,
       };
       arrayFlagLeftDiagonal.push(entity);
     }
@@ -523,7 +523,7 @@ var TableCaroInit = cc.Scene.extend({
       nameSquareBlockOnLeftDiagonal
     );
     if (entitySquareBlockLeftDiagonal) {
-      squareBlockOnLeft.flag = entitySquareBlockLeftDiagonal.flagX_O;
+      squareBlockOnLeft.flag = entitySquareBlockLeftDiagonal?.flagX_O;
       if (!squareBlockOnLeft.flag) {
         blockLeftOn = false;
       } else {
@@ -549,7 +549,7 @@ var TableCaroInit = cc.Scene.extend({
       nameSquareBlockDownLeftDiagonal
     );
     if (entitySquareBlockRightDiagonal) {
-      squareBlockDownLeft.flag = entitySquareBlockRightDiagonal.flagX_O;
+      squareBlockDownLeft.flag = entitySquareBlockRightDiagonal?.flagX_O;
       if (!squareBlockDownLeft.flag) {
         blockLeftDown = false;
       } else {
@@ -595,7 +595,7 @@ var TableCaroInit = cc.Scene.extend({
       "Oy_" +
       squareCenter.po_Y;
     const getEntityCenter = this.getChildByName(nameSquareCenter);
-    squareCenter.flag = getEntityCenter.flagX_O;
+    squareCenter.flag = getEntityCenter?.flagX_O;
     // console.log("Điển trung tâm đường chéo phải:", squareCenter);
     const minOxCheck = indexOx - 3; //Vị trí đầu tiên cần kiểm tra.
     const maxOxCheck = indexOx + 3; //Vị trí cuối cùng cần kiểm tra.
@@ -623,7 +623,7 @@ var TableCaroInit = cc.Scene.extend({
       const entity = {
         po_X: po_X,
         po_Y: po_Y,
-        flag: entitySquareLeftDiagonal.flagX_O,
+        flag: entitySquareLeftDiagonal?.flagX_O,
       };
       arrayFlagLeftDiagonal.push(entity);
     }
@@ -679,7 +679,7 @@ var TableCaroInit = cc.Scene.extend({
     // console.log("Khối chặn phải dưới:", entitySquareBlockRightDiagonalDown);
     if (entitySquareBlockRightDiagonalDown) {
       squareBlocRightDiagonalDown.flag =
-        entitySquareBlockRightDiagonalDown.flagX_O;
+        entitySquareBlockRightDiagonalDown?.flagX_O;
       if (!squareBlocRightDiagonalDown.flag) {
         blockRightDiagonalDown = false;
       } else {
@@ -705,7 +705,8 @@ var TableCaroInit = cc.Scene.extend({
       nameSquareBlockRightDiagonalUp
     );
     if (entitySquareBlockOnRightDiagonal) {
-      squareBlockRightDiagonalUp.flag = entitySquareBlockOnRightDiagonal.flagX_O;
+      squareBlockRightDiagonalUp.flag =
+        entitySquareBlockOnRightDiagonal?.flagX_O;
       if (!squareBlockRightDiagonalUp.flag) {
         blockRightDiagonalUp = false;
       } else {
