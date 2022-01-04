@@ -8,7 +8,7 @@ var GameClassLayerDemoEventHandle = cc.Layer.extend({
     const that = this;
     this.renderImgSaoChoi();
     this.renderButtonStartGame(parent);
-    renderImgTraiDatQuayTron(this);
+    // renderImgTraiDatQuayTron(this);
     const listenerEvent = cc.EventListener.create({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
       swallowTouches: true,

@@ -51,6 +51,11 @@ Parameters:
 sx tỷ lệ kéo dãn ảnh theo trục x
 sy tỷ lệ kéo dãn ảnh theo trục y. Nếu sy == null thì sy == sx
 
+# cc.MoveBy()
+
+Tạo ra hành động bằng cách thay đổi vị trí của đối tượng theo tâm Po.
+cc.moveBy(2.5, cc.p(-getSizeWin.width / 2, getSizeWin.height)).easing(cc.easeSineOut())
+
 # Mở rộng lớp con cc.classChilds:
 
 1.

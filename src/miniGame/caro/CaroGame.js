@@ -6,6 +6,7 @@ var nameChirldGameCaro = {
   Start_Game_Btn: "Button_Start",
   OVuong_Img: "O_Vuong_",
   BacDa_Img: "BacDa_Img",
+  Banner_Kill: "Banner_Kill",
 };
 var GameCaroInit = cc.Scene.extend({
   ctor: function () {
@@ -133,7 +134,6 @@ var GameCaroInit = cc.Scene.extend({
     }
   },
   zoomAnimationsAllChirld: function (parsedX, parsedY) {
-    console.log("Vị trí click chuột:", parsedX, parsedY);
     this.clickStartGame(parsedX, parsedY);
     //Lấy vị trí thực thể ảnh Mini on:
     const entityImgMinionPo = this.getChildByName(

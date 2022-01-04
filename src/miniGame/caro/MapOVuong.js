@@ -5,16 +5,11 @@ var TableCaroInit = cc.Scene.extend({
     this.flagX_O = true; // X đi trước.
   },
   init: function () {
-    //Ảnh nền Bác Đa:
-    const that = this;
-    const getSizeWin = cc.winSize;
-    const bacDaBackground = cc.Sprite.create(res.BacDa_png);
-    bacDaBackground.setName(nameChirldGameCaro.BacDa_Img);
-    bacDaBackground.setPosition(getSizeWin.width / 2, getSizeWin.height / 2);
-    bacDaBackground.setScale(1.1, 1.2);
-    this.addChild(bacDaBackground, 0);
+    this.imgBacDaBackground();
     this.mapArrayOVuong();
+    // this.introKill();
     //Lắng nghe sự kiện click chuột đặt sự kiện vào ảnh nền bác Đa:"
+    const that = this;
     const listenerEvent = cc.EventListener.create({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
       swallowTouches: true,
@@ -32,6 +27,45 @@ var TableCaroInit = cc.Scene.extend({
     });
     const entityImgBacDa = this.getChildByName(nameChirldGameCaro.BacDa_Img);
     cc.eventManager.addListener(listenerEvent, entityImgBacDa);
+  },
+  //Ảnh nền Bác Đa:
+  imgBacDaBackground: function () {
+    const getSizeWin = cc.winSize;
+    const bacDaBackground = cc.Sprite.create(res.BacDa_png);
+    bacDaBackground.setName(nameChirldGameCaro.BacDa_Img);
+    bacDaBackground.setPosition(getSizeWin.width / 2, getSizeWin.height / 2);
+    bacDaBackground.setScale(1.1, 1.2);
+    this.addChild(bacDaBackground, 0);
+  },
+  //Ảnh giới thiệu 2 đối thủ:
+  introKill: function () {
+    const getSizeWin = cc.winSize;
+    const bannerKill = cc.Sprite.create(res.MiniOn_png);
+    bannerKill.setName(nameChirldGameCaro.Banner_Kill);
+    bannerKill.setPosition(0, getSizeWin.height / 2);
+    bannerKill.scale = 0.5;
+    this.addChild(bannerKill, 2);
+    const actions1 = cc.spawn(
+      cc.moveBy(1, cc.p(getSizeWin.width - 200, 0)).easing(cc.easeSineOut())
+    );
+    const actions2 = cc.spawn(
+      cc.moveBy(2, cc.p(-getSizeWin.width / 2, 0)).easing(cc.easeSineOut())
+    );
+    const actions3 = cc.spawn(
+      cc
+        .moveBy(1.5, cc.p(-getSizeWin.width / 2, getSizeWin.height))
+        .easing(cc.easeSineOut())
+    );
+    const actions4 = actions3.reverse();
+    const actions5 = actions2.clone();
+    const actionContinue = cc.sequence(
+      actions1,
+      actions2,
+      actions3,
+      actions4,
+      actions5
+    );
+    bannerKill.runAction(actionContinue);
   },
   mapArrayOVuong: function () {
     //Tạo mảng ô vuông cạnh: 80px*80px.
