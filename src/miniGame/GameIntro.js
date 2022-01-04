@@ -31,7 +31,6 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
         {
           event: cc.EventListener.MOUSE,
           onMouseMove: function (event) {
-            // console.log("Nghe chuột.... ", event);
             if (event.getButton() == cc.EventMouse.BUTTON_LEFT)
               event.getCurrentTarget().processEvent(event);
           },
@@ -117,7 +116,9 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     this.addChild(ThienThach2, 0);
     //Hành động thiên thạch 1:
     const actions1 = cc.spawn(
-      cc.moveBy(duration, cc.p(-size.width, -size.height)).easing(cc.easeSineOut())
+      cc
+        .moveBy(duration, cc.p(-size.width, -size.height))
+        .easing(cc.easeSineOut())
     );
     const actions2 = cc.rotateTo(durationRotate, 180);
     const actions3 = cc.moveBy(duration, cc.p(size.width, size.height));
@@ -127,7 +128,9 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     );
     //Hành động thiên thạch 2:
     const actions1A = cc.spawn(
-      cc.moveBy(duration, cc.p(size.width, -size.height)).easing(cc.easeSineOut())
+      cc
+        .moveBy(duration, cc.p(size.width, -size.height))
+        .easing(cc.easeSineOut())
     );
     const actions2A = cc.rotateTo(durationRotate, 70);
     const actions3A = cc.moveBy(duration, cc.p(-size.width, size.height));

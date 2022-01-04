@@ -3,6 +3,8 @@ var TableCaroInit = cc.Scene.extend({
     this._super();
     this.init();
     this.flagX_O = true;
+    this.timeCountStartGame = 0;
+    this.timeCountMucSicHuanHoaHong = 0;
   },
   init: function () {
     this.imgBacDaBackground();
@@ -54,28 +56,23 @@ var TableCaroInit = cc.Scene.extend({
     //Ảnh Bác Đa:
     const bacDaImg = cc.Sprite.create(res.BacDaAvatar_png);
     bacDaImg.setName(nameChirldGameCaro.MuiTen_png);
-    bacDaImg.setPosition(getSizeWin.width / 2 + 240, getSizeWin.height / 2);
-    bacDaImg.scale = 1.2;
+    bacDaImg.setPosition(getSizeWin.width + 500, getSizeWin.height / 2);
+    bacDaImg.scale = 1.21;
     this.addChild(bacDaImg, 2);
     //Ảnh Huấn Hoa Hồng actions:
     const actionsHH1 = cc.spawn(
-      cc.moveBy(1, cc.p(getSizeWin.width - 260, 0)).easing(cc.easeSineOut())
+      cc.moveBy(0.5, cc.p(getSizeWin.width - 260, 0)).easing(cc.easeSineOut())
     );
     const actionsHH2 = cc.spawn(
-      cc.moveBy(2, cc.p(-getSizeWin.width / 2, 0)).easing(cc.easeSineOut())
+      cc.moveBy(1, cc.p(-getSizeWin.width / 2 + 5, 0)).easing(cc.easeSineOut())
     );
-    // const actionsHH3 = cc.spawn(
-    //   cc
-    //     .moveBy(1.5, cc.p(-getSizeWin.width / 2, getSizeWin.height))
-    //     .easing(cc.easeSineOut())
-    // );
-    // const actionsHH4 = actionsHH3.reverse();
-    const actionContinueHuan = cc.sequence(
-      actionsHH1,
-      actionsHH2,
-      // actionsHH3,
-      // actionsHH4
-    );
+    this.timeCountMucSicHuanHoaHong = setTimeout(() => {
+      cc.audioEngine.playMusic(res.HuaHoaHong_Intro_mp3);
+    }, 500);
+    setTimeout(() => {
+      cc.audioEngine.playMusic(res.BacDa_Intro_mp3);
+    }, 2000);
+    const actionContinueHuan = cc.sequence(actionsHH1, actionsHH2);
     huanHoaHongImg.runAction(actionContinueHuan);
     //Ảnh mũi tên actions:
     const actionsMT = cc.spawn(
@@ -84,21 +81,20 @@ var TableCaroInit = cc.Scene.extend({
     const actionContinueMuiTen = cc.sequence(actionsMT);
     muiTenImg.runAction(actionContinueMuiTen);
     //Ảnh Bác Đa actions:
+    const delayTime = cc.DelayTime.create(1.5);
     const actionsBD1 = cc.spawn(
-      cc.scaleBy(0.2, 1.2, 1.2).easing(cc.easeSineOut())
+      cc.moveBy(0.5, cc.p(-700, 0)).easing(cc.easeSineOut())
     );
-    const actionsBD2 = cc.spawn(
-      cc.scaleBy(0.5, 0.8, 0.8).easing(cc.easeSineOut())
-    );
-    const actionContinueBacDa = cc.repeatForever(
-      cc.sequence(actionsBD1, actionsBD2)
-    );
+    // const actionContinueBacDa = cc.repeatForever(
+    //   cc.sequence(delayTime, actionsBD1, actionsBD2)
+    // );
+    const actionContinueBacDa = cc.sequence(delayTime, actionsBD1);
     bacDaImg.runAction(actionContinueBacDa);
-    setTimeout(() => {
+    this.timeCountStartGame = setTimeout(() => {
       this.removeChild(huanHoaHongImg, true);
       this.removeChild(muiTenImg, true);
       this.removeChild(bacDaImg, true);
-    }, 6000);
+    }, 8500);
   },
   mapArrayOVuong: function () {
     //Tạo mảng ô vuông cạnh: 80px*80px.
@@ -364,7 +360,6 @@ var TableCaroInit = cc.Scene.extend({
     //Kiểm tra mảng check trùng trạng thái:
     const arrNeedCheckSame = arrayFlagOy;
     const arrayFourFlagSame = [null, null, null, null];
-    var winFourSquare = false;
     for (var indexSame = 0; indexSame < arrNeedCheckSame.length; indexSame++) {
       const element = arrNeedCheckSame[indexSame];
       const isCheckSameX_Flag = (item) => item?.flag == "X_Flag";
@@ -503,7 +498,6 @@ var TableCaroInit = cc.Scene.extend({
     //Kiểm tra mảng check trùng trạng thái 4 ô vuông liên tiếp trùng cờ nhau:
     const arrNeedCheckSame = arrayFlagLeftDiagonal;
     const arrayFourFlagSame = [null, null, null, null];
-    var winFourSquare = false;
     for (var indexSame = 0; indexSame < arrNeedCheckSame.length; indexSame++) {
       const element = arrNeedCheckSame[indexSame];
       const isCheckSameX_Flag = (item) => item?.flag == "X_Flag";
@@ -644,7 +638,6 @@ var TableCaroInit = cc.Scene.extend({
     //Kiểm tra mảng check trùng trạng thái 4 ô vuông liên tiếp trùng cờ nhau:
     const arrNeedCheckSame = arrayFlagLeftDiagonal;
     const arrayFourFlagSame = [null, null, null, null];
-    var winFourSquare = false;
     for (var indexSame = 0; indexSame < arrNeedCheckSame.length; indexSame++) {
       const element = arrNeedCheckSame[indexSame];
       const isCheckSameX_Flag = (item) => item?.flag == "X_Flag";

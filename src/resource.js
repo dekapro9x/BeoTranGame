@@ -13,7 +13,10 @@ var res = {
   OVuongDo_png: "res/OvuongDo.png",
   ThayHuan_png: "res/ThayHuan.png",
   MuiTen_png: "res/MuiTen.png",
-  BacDaAvatar_png : "res/BacDa.png"
+  BacDaAvatar_png: "res/BacDa.png",
+  HuaHoaHong_Intro_mp3: "res/HuanHoaHong-CoLamMoiCoAn.mp3",
+  BacDa_Intro_mp3: "res/BacDaDamMayPhatIntro.mp3",
+  ATheLamSao_mp3:"res/ATheA1.mp3"
 };
 var g_resources = [];
 for (const i in res) {

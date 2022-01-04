@@ -1,5 +1,5 @@
 var OVuongHandleEventGame = cc.Scene.extend({
-  ctor: function (indexOx, indexOy, father) {
+  ctor: function (indexOx, indexOy) {
     this._super();
     this.init(indexOx, indexOy);
     this.clickHere = false;
@@ -9,14 +9,23 @@ var OVuongHandleEventGame = cc.Scene.extend({
     //Khởi tạo hình vuông:
     //Hình vuông xác định kích thước  = 80 *80;
     const poCenter = { pOx_center: 40, pOy_center: 40 };
-    const squareInit = cc.Sprite.create(res.OVuongTrang_png);
+    this.squareInit = cc.Sprite.create(res.OVuongTrang_png);
     const nameRepresentChirldOVuong =
       nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
-    squareInit.x = poCenter.pOx_center * (indexOx + 1);
-    squareInit.y = poCenter.pOy_center * (indexOy + 1);
-    squareInit.setScale(scaleSquareInit, scaleSquareInit);
-    squareInit.setName(nameRepresentChirldOVuong);
-    this.addChild(squareInit, 0);
+    this.squareInit.x = poCenter.pOx_center * (indexOx + 1);
+    this.squareInit.y = poCenter.pOy_center * (indexOy + 1);
+    this.squareInit.setScale(scaleSquareInit, scaleSquareInit);
+    this.squareInit.setName(nameRepresentChirldOVuong);
+    const actions = cc.rotateBy(8, 90*20);
+    this.squareInit.runAction(actions)
+    this.addChild(this.squareInit, 0);
+  },
+  //Hiệu ứng nổ pháo hoa:
+  animationsPopPop: function () {},
+  //Thắng game:
+  animationsWin: function () {
+    const actions = cc.rotateBy(8, 90*20);
+    this.squareFlag.runAction(actions)
   },
   //Kiểm tra ấn chuột vào ô nào:
   checkClickHere: function (indexOx, indexOy, flagX_O, father) {
@@ -30,41 +39,79 @@ var OVuongHandleEventGame = cc.Scene.extend({
     if (!this.clickHere) {
       if (flagX_O) {
         this.flagX_O = "X_Flag";
+        //Xóa ảnh khởi tạo thay thế ảnh Flag vào:
         this.removeChild(oVuongRemove, true);
-        this.addImgRed(indexOx, indexOy, father);
+        this.squareFlag_X(indexOx, indexOy, father);
         father.checkWinGame(indexOx, indexOy);
       } else {
         this.flagX_O = "O_Flag";
+          //Xóa ảnh khởi tạo thay thế ảnh Flag vào:
         this.removeChild(oVuongRemove, true);
-        this.addImgOrage(indexOx, indexOy, father);
+        this.squareFlag_O(indexOx, indexOy, father);
         father.checkWinGame(indexOx, indexOy);
       }
     }
   },
-  addImgRed: function (indexOx, indexOy, father) {
+  //Cờ hiệu X:
+  squareFlag_X: function (indexOx, indexOy, father) {
     const poCenter = { pOx_center: 40, pOy_center: 40 };
-    const oVuong = cc.Sprite.create(res.OVuongDo_png);
+    this.squareFlag = cc.Sprite.create(res.OVuongDo_png);
     const nameRepresentChirldOVuong =
       nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
-    oVuong.x = poCenter.pOx_center * (indexOx + 1);
-    oVuong.y = poCenter.pOy_center * (indexOy + 1);
-    oVuong.setName(nameRepresentChirldOVuong);
-    oVuong.setScale(scaleSquareInit, scaleSquareInit);
-    this.addChild(oVuong, 0);
+      this.squareFlag.x = poCenter.pOx_center * (indexOx + 1);
+      this.squareFlag.y = poCenter.pOy_center * (indexOy + 1);
+      this.squareFlag.setName(nameRepresentChirldOVuong);
+      this.squareFlag.setScale(scaleSquareInit, scaleSquareInit);
+    this.addChild(this.squareFlag, 0);
     this.clickHere = true;
     father.onChangeFlag();
+    this.musicRanDomRingSmile();
+    this.animationsWin();
   },
-  addImgOrage: function (indexOx, indexOy, father) {
+  //Cờ hiệu O:
+  squareFlag_O: function (indexOx, indexOy, father) {
     const poCenter = { pOx_center: 40, pOy_center: 40 };
-    const oVuong = cc.Sprite.create(res.OVuongCam_png);
+    this.squareFlag = cc.Sprite.create(res.OVuongCam_png);
     const nameRepresentChirldOVuong =
       nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
-    oVuong.x = poCenter.pOx_center * (indexOx + 1);
-    oVuong.y = poCenter.pOy_center * (indexOy + 1);
-    oVuong.setName(nameRepresentChirldOVuong);
-    oVuong.setScale(scaleSquareInit, scaleSquareInit);
-    this.addChild(oVuong, 0);
+      this.squareFlag.x = poCenter.pOx_center * (indexOx + 1);
+      this.squareFlag.y = poCenter.pOy_center * (indexOy + 1);
+      this.squareFlag.setName(nameRepresentChirldOVuong);
+      this.squareFlag.setScale(scaleSquareInit, scaleSquareInit);
+    this.addChild(this.squareFlag, 0);
     this.clickHere = true;
     father.onChangeFlag();
+    this.musicRanDomRingSmile();
+  },
+  musicRanDomRingSmile: function () {
+    const random = Math.floor(Math.random() * 10);
+    switch (random) {
+      case 1:
+        cc.audioEngine.playMusic(res.BacDa_Intro_mp3);
+        break;
+      case 2:
+        cc.audioEngine.playMusic(res.HuaHoaHong_Intro_mp3);
+        break;
+      case 3:
+        cc.audioEngine.playMusic(res.ATheLamSao_mp3);
+        break;
+      case 4:
+        break;
+      case 5:
+        break;
+      case 6:
+        break;
+      case 7:
+        break;
+      case 8:
+        break;
+      case 9:
+        break;
+      case 10:
+        break;
+      default:
+        console.log("random", random);
+        break;
+    }
   },
 });
