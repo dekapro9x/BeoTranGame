@@ -290,7 +290,6 @@ var TableCaroInit = cc.Scene.extend({
   },
   //Kiểm tra phương Oy:
   checkWinGameOy: function (indexOx, indexOy) {
-    console.log("Kiểm tra trục Oy:", indexOx, indexOy);
     const arrayFlagOy = [];
     const lengSquareConsecutive = 3; //Số ô gần kề ô trung tâm cần kiểm tra.
     const max_PoY = 15; //Giới hạn tung độ Oy.
@@ -341,12 +340,9 @@ var TableCaroInit = cc.Scene.extend({
       const isSameX_Flag = arrayFourFlagSame.every(isCheckSameX_Flag);
       const isSameO_Flag = arrayFourFlagSame.every(isCheckSameO_Flag);
       if (isSameX_Flag || isSameO_Flag) {
-        winFourSquare = this.checkBlockHeadFourSquareOy(arrayFourFlagSame);
+        this.checkBlockHeadFourSquareOy(arrayFourFlagSame);
         break;
       }
-    }
-    if (winFourSquare) {
-      this.youWinScreen();
     }
   },
   //Kiểm tra chặn đầu trên dưới của 4 ô giống nhau trục Oy:
@@ -402,19 +398,19 @@ var TableCaroInit = cc.Scene.extend({
     }
     //Trường hợp không có khối chặn:
     if (!blockOnOy && !blockDownOy) {
-      return true;
+      this.youWinScreen(arrayFourFlagSame);
     } else {
       //Trường hợp có khối chặn tạo 5 khối cùng flag liền nhau:
       //Chặn trên trục Oy:
       if (blockOnOy) {
         if (squareBlockOnOy.flag === squareStart.flag) {
-          return true;
+          this.youWinScreen(arrayFourFlagSame);
         }
       }
       //Chặn dưới trục Oy:
       if (blockDownOy) {
         if (squareBlockDownOy.flag === squareStartEnd.flag) {
-          return true;
+          this.youWinScreen(arrayFourFlagSame);
         }
       }
     }
@@ -484,15 +480,9 @@ var TableCaroInit = cc.Scene.extend({
       const isSameX_Flag = arrayFourFlagSame.every(isCheckSameX_Flag);
       const isSameO_Flag = arrayFourFlagSame.every(isCheckSameO_Flag);
       if (isSameX_Flag || isSameO_Flag) {
-        winFourSquare = this.checkBlockHeadFourSquareLeftDiagonal(
-          arrayFourFlagSame,
-          squareCenter
-        );
+        this.checkBlockHeadFourSquareLeftDiagonal(arrayFourFlagSame);
         break;
       }
-    }
-    if (winFourSquare) {
-      this.youWinScreen();
     }
   },
   //Kiểm tra khối chặn đường chéo trái:
@@ -551,19 +541,19 @@ var TableCaroInit = cc.Scene.extend({
     }
     //Trường hợp không có khối chặn:
     if (!blockLeftOn && !blockLeftDown) {
-      return true;
+      this.youWinScreen(arrayFourFlagSame);
     } else {
       //Trường hợp có khối chặn tạo 5 khối cùng flag liền nhau:
       //Chặn trên trái:
       if (blockLeftOn) {
         if (squareBlockOnLeft.flag === squareStart.flag) {
-          return true;
+          this.youWinScreen(arrayFourFlagSame);
         }
       }
       //Chặn dưới trái:
       if (blockLeftDown) {
         if (squareBlockDownLeft.flag === squareStartEnd.flag) {
-          return true;
+          this.youWinScreen(arrayFourFlagSame);
         }
       }
     }
@@ -632,13 +622,9 @@ var TableCaroInit = cc.Scene.extend({
       const isSameX_Flag = arrayFourFlagSame.every(isCheckSameX_Flag);
       const isSameO_Flag = arrayFourFlagSame.every(isCheckSameO_Flag);
       if (isSameX_Flag || isSameO_Flag) {
-        winFourSquare =
-          this.checkBlockHeadFourSquareRightDiagonal(arrayFourFlagSame);
+        this.checkBlockHeadFourSquareRightDiagonal(arrayFourFlagSame);
         break;
       }
-    }
-    if (winFourSquare) {
-      this.youWinScreen();
     }
   },
   //Kiểm tra chặn đầu đuôi trên đường chéo phải:
@@ -705,19 +691,19 @@ var TableCaroInit = cc.Scene.extend({
     }
     //Trường hợp không có khối chặn:
     if (!blockRightDiagonalUp && !blockRightDiagonalDown) {
-      return true;
+      this.youWinScreen(arrayFourFlagSame);
     } else {
       //Trường hợp có khối chặn tạo 5 khối cùng flag liền nhau:
       //Chặn trên chéo phải trên:
       if (blockRightDiagonalUp) {
         if (squareBlockRightDiagonalUp.flag === squareStart.flag) {
-          return true;
+          this.youWinScreen(arrayFourFlagSame);
         }
       }
       //Chặn dưới phải dưới:
       if (blockRightDiagonalDown) {
         if (squareBlocRightDiagonalDown.flag === squareStartEnd.flag) {
-          return true;
+          this.youWinScreen(arrayFourFlagSame);
         }
       }
     }
