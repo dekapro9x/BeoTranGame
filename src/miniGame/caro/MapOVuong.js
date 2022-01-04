@@ -2,7 +2,7 @@ var TableCaroInit = cc.Scene.extend({
   ctor: function () {
     this._super();
     this.init();
-    this.flagX_O = true; // X đi trước.
+    this.flagX_O = true;
   },
   init: function () {
     this.imgBacDaBackground();
@@ -19,7 +19,6 @@ var TableCaroInit = cc.Scene.extend({
         const base = 10;
         const parsedX = parseInt(x, base);
         const parsedY = parseInt(y, base);
-        // console.log("Lắng nghe chuột", touch);
         that.addListenerTouchMousePushX_O(parsedX, parsedY);
       },
       onTouchMoved: function (touch, event) {},
@@ -151,26 +150,23 @@ var TableCaroInit = cc.Scene.extend({
     this.flagX_O = !this.flagX_O;
   },
   checkWinGame: function (indexOx, indexOy) {
-    //Kiểm tra trục Ox:
     this.checkWinGameOx(indexOx, indexOy);
-    //Kiểm tra trên trục Oy:
-    // this.checkWinGameOy(indexOx, indexOy);
+    this.checkWinGameOy(indexOx, indexOy);
     //Kiểm tra trên đường chéo trái đi qua tâm:
-    // this.checkWinGameLeftDiagonal(indexOx, indexOy);
+    this.checkWinGameLeftDiagonal(indexOx, indexOy);
     //Kiểm tra trên đường chéo phải đi qua tâm:
-    // this.checkWinGameRightDiagonal(indexOx, indexOy);
+    this.checkWinGameRightDiagonal(indexOx, indexOy);
   },
+  //Kiểm tra phương ngang Ox:
   checkWinGameOx: function (indexOx, indexOy) {
-    const arrayFlagOx = []; //Mảng cần kiểm tra cờ trùng nhau trục Ox.
+    const arrayFlagOx = [];
     const lengSquareConsecutive = 3; //Số ô kề trung tâm về 2 hướng trái + phải.
     const max_PoX = 23; //Giới hạn trục hoành Ox.
-    //Điểm trung tâm Ox:
     const squareCenterOx = {
       po_X: indexOx,
       po_Y: indexOy,
       flag: null,
     };
-    //Định danh cho điểm trung tâm:
     const nameSquareCenterOx =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -178,14 +174,10 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareCenterOx.po_Y;
-    //This của điểm trung tâm:
     const entitySquareCenterOx = this.getChildByName(nameSquareCenterOx);
-    //Cờ hiệu điểm trung tâm:
     squareCenterOx.flag = entitySquareCenterOx?.flagX_O;
-    // console.log("%c Điểm trung tâm Ox:", "color:blue", squareCenterOx);
     const minOxCheck = indexOx - lengSquareConsecutive; //Vị trí đầu tiên cần kiểm tra.
     const maxOxCheck = indexOx + lengSquareConsecutive; //Vị trí cuối cùng cần kiểm tra.
-    //Lấy danh sách ô vuông + cờ cần kiểm tra:
     for (
       let indexArrayFlagSquare = minOxCheck;
       indexArrayFlagSquare <= maxOxCheck;
@@ -205,10 +197,6 @@ var TableCaroInit = cc.Scene.extend({
     }
     //Danh sách ô vuông liên tiếp cần kiểm tra:
     const arrNeedCheckSame = arrayFlagOx;
-    // console.log(
-    //   "Mảng cấn kiểm tra cờ trùng nhau trên trục Ox:",
-    //   arrNeedCheckSame
-    // );
     const arrayFourFlagSame = [null, null, null, null];
     for (
       var indexSameOx = 0;
@@ -248,7 +236,6 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareBlockLeftOx.po_Y;
-    //Khối vật lý chặn trái:
     const entitySquareBlockLeft = this.getChildByName(nameSquareBlockLeft);
     if (entitySquareBlockLeft) {
       squareBlockLeftOx.flag = entitySquareBlockLeft?.flagX_O;
@@ -271,7 +258,6 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareBlockRight.po_Y;
-    //Khối vật lý chặn phải Ox:
     const entitySquareBlockRight = this.getChildByName(nameSquareBlockRight);
     if (entitySquareBlockRight) {
       squareBlockRight.flag = entitySquareBlockRight?.flagX_O;
@@ -281,7 +267,6 @@ var TableCaroInit = cc.Scene.extend({
         blockRightOx = true;
       }
     }
-
     //Trường hợp không có khối chặn 4 ô trên Ox liền nhau trùng 1 cờ:
     if (!blockLeftOx && !blockRightOx) {
       this.youWinScreen(arrayFourFlagSame);
@@ -303,18 +288,17 @@ var TableCaroInit = cc.Scene.extend({
       }
     }
   },
-  //Kiểm tra thắng thua trên trục Oy:
+  //Kiểm tra phương Oy:
   checkWinGameOy: function (indexOx, indexOy) {
+    console.log("Kiểm tra trục Oy:", indexOx, indexOy);
     const arrayFlagOy = [];
     const lengSquareConsecutive = 3; //Số ô gần kề ô trung tâm cần kiểm tra.
     const max_PoY = 15; //Giới hạn tung độ Oy.
-    //Ô vuông trung tâm:
     const squareCenterOy = {
       po_X: indexOx,
       po_Y: indexOy,
       flag: null,
     };
-    //Lấy tên ô vuông trung tâm Oy:
     const nameSquareCenterOy =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -324,11 +308,6 @@ var TableCaroInit = cc.Scene.extend({
       squareCenterOy.po_Y;
     const entityCenter = this.getChildByName(nameSquareCenterOy);
     squareCenterOy.flag = entityCenter?.flagX_O;
-    // console.log(
-    //   "%c Điểm trung tâm cần kiêm tra trục Ox:",
-    //   "color:blue",
-    //   squareCenterOy
-    // );
     const minOyCheck = indexOy - lengSquareConsecutive; //Vị trí đầu tiên cần kiểm tra.
     const maxOyCheck = indexOy + lengSquareConsecutive; //Vị trí cuối cùng cần kiểm tra.
     //Lấy danh sách ô vuông + cờ cần kiểm tra:
@@ -338,6 +317,7 @@ var TableCaroInit = cc.Scene.extend({
       indexArrayFlagSquare++
     ) {
       if (indexArrayFlagSquare < 0 || indexArrayFlagSquare > max_PoY) {
+        //Vượt giới hạn bản đồ:
         continue;
       }
       const po_X = squareCenterOy.po_X;
@@ -350,10 +330,6 @@ var TableCaroInit = cc.Scene.extend({
     }
     //Kiểm tra mảng check trùng trạng thái:
     const arrNeedCheckSame = arrayFlagOy;
-    // console.log(
-    //   "Mảng cấn kiểm tra cờ trùng nhau trên trục Oy:",
-    //   arrNeedCheckSame
-    // );
     const arrayFourFlagSame = [null, null, null, null];
     var winFourSquare = false;
     for (var indexSame = 0; indexSame < arrNeedCheckSame.length; indexSame++) {
@@ -386,7 +362,6 @@ var TableCaroInit = cc.Scene.extend({
       po_Y: squareStart.po_Y - 1,
       flag: null,
     };
-    //Lấy tên ô vuông chặn trên Oy:
     const nameSquareBlockOn =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -394,7 +369,6 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareBlockOnOy.po_Y;
-    //Khối hộp chặn trên Oy:
     const entitySquareBlockOn = this.getChildByName(nameSquareBlockOn);
     if (entitySquareBlockOn) {
       squareBlockOnOy.flag = entitySquareBlockOn?.flagX_O;
@@ -410,7 +384,6 @@ var TableCaroInit = cc.Scene.extend({
       po_Y: squareStartEnd.po_Y + 1,
       flag: null,
     };
-    //Tên ô vuông chặn dưới Oy:
     const nameSquareBlockDown =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -418,7 +391,6 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareBlockDownOy.po_Y;
-    //This khối vuông chặn dưới Oy:
     const entitySquareBlockDown = this.getChildByName(nameSquareBlockDown);
     if (entitySquareBlockDown) {
       squareBlockDownOy.flag = entitySquareBlockDown?.flagX_O;
@@ -433,13 +405,13 @@ var TableCaroInit = cc.Scene.extend({
       return true;
     } else {
       //Trường hợp có khối chặn tạo 5 khối cùng flag liền nhau:
-      //Chặn trái:
+      //Chặn trên trục Oy:
       if (blockOnOy) {
         if (squareBlockOnOy.flag === squareStart.flag) {
           return true;
         }
       }
-      //Chặn phải:
+      //Chặn dưới trục Oy:
       if (blockDownOy) {
         if (squareBlockDownOy.flag === squareStartEnd.flag) {
           return true;
@@ -447,18 +419,17 @@ var TableCaroInit = cc.Scene.extend({
       }
     }
   },
-  //Kiểm tra thắng thua trên đường chéo trái:
+  //Kiểm tra đường chéo trái:
   checkWinGameLeftDiagonal: function (indexOx, indexOy) {
     const arrayFlagLeftDiagonal = [];
     const max_PoX = 23;
     const max_PoY = 15;
-    //Xác định ô vuông trung tâm đường tréo trái:
+    const lengSquareConsecutive = 3;
     const squareCenter = {
       po_X: indexOx,
       po_Y: indexOy,
       flag: null,
     };
-    //Lấy tên điểm trung tâm:
     const nameSquareCenter =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -468,10 +439,9 @@ var TableCaroInit = cc.Scene.extend({
       squareCenter.po_Y;
     const getEntityCenter = this.getChildByName(nameSquareCenter);
     squareCenter.flag = getEntityCenter?.flagX_O;
-    // console.log("Điển trung tâm đường chéo trái:", squareCenter);
-    const minOxCheck = indexOx - 3; //Vị trí đầu tiên cần kiểm tra.
-    const maxOxCheck = indexOx + 3; //Vị trí cuối cùng cần kiểm tra.
-    var OyLeftDiagonalRun = indexOy - 3; //Oy sẽ chạy từ indexOy - 3 => indexOy + 3
+    const minOxCheck = indexOx - lengSquareConsecutive;
+    const maxOxCheck = indexOx + lengSquareConsecutive;
+    var OyLeftDiagonalRun = indexOy - lengSquareConsecutive; //Oy sẽ chạy từ indexOy - 3 => indexOy + 3
     //Đường chéo trái trục Ox giảm, trục Oy tăng:
     for (
       let indexArrayFlagSquare = maxOxCheck;
@@ -508,7 +478,6 @@ var TableCaroInit = cc.Scene.extend({
       const element = arrNeedCheckSame[indexSame];
       const isCheckSameX_Flag = (item) => item?.flag == "X_Flag";
       const isCheckSameO_Flag = (item) => item?.flag == "O_Flag";
-      //Đẩy 1 phần tử vào cuối rồi bỏ 1 phần tử đầu đi sẽ giữ lại mảng có 4 phần tử.
       arrayFourFlagSame.push(element);
       arrayFourFlagSame.shift();
       //Kiểm tra cờ hiệu liên tiếp của 4 phần tử có giống nhau không.
@@ -528,18 +497,16 @@ var TableCaroInit = cc.Scene.extend({
   },
   //Kiểm tra khối chặn đường chéo trái:
   checkBlockHeadFourSquareLeftDiagonal: function (arrayFourFlagSame) {
-    //Xác định vị trí ô vuông đầu và cuối trong mảng:
-    var blockLeftOn = null; //Chặn đầu.
-    var blockLeftDown = null; //Chặn cuối.
+    var blockLeftOn = null;
+    var blockLeftDown = null;
     const squareStart = arrayFourFlagSame[0];
     const squareStartEnd = arrayFourFlagSame[arrayFourFlagSame.length - 1];
-    //Khối chặn tréo trái trên:
+    //Khối chặn tréo trái phía trên:
     const squareBlockOnLeft = {
       po_X: squareStart.po_X + 1,
       po_Y: squareStart.po_Y - 1,
       flag: null,
     };
-    //Lấy khối chặn tréo trái:
     const nameSquareBlockOnLeftDiagonal =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -547,7 +514,6 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareBlockOnLeft.po_Y;
-    //Khối hộp chặn trái:
     const entitySquareBlockLeftDiagonal = this.getChildByName(
       nameSquareBlockOnLeftDiagonal
     );
@@ -559,13 +525,12 @@ var TableCaroInit = cc.Scene.extend({
         blockLeftOn = true;
       }
     }
-    //Lấy khối chặn dưới tréo trái dưới:
+    //Lấy khối chặn dưới tréo trái phía dưới:
     const squareBlockDownLeft = {
       po_X: squareStartEnd.po_X - 1,
       po_Y: squareStartEnd.po_Y + 1,
       flag: null,
     };
-    //Lấy tên khối chặn trái dưới:
     const nameSquareBlockDownLeftDiagonal =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -573,7 +538,6 @@ var TableCaroInit = cc.Scene.extend({
       "_" +
       "Oy_" +
       squareBlockDownLeft.po_Y;
-    //Khối hộp chặn dưới trái:
     const entitySquareBlockRightDiagonal = this.getChildByName(
       nameSquareBlockDownLeftDiagonal
     );
@@ -604,18 +568,17 @@ var TableCaroInit = cc.Scene.extend({
       }
     }
   },
-  // Kiểm tra thắng - thua trên đường chéo phải:
+  // Kiểm tra đường chéo phải:
   checkWinGameRightDiagonal: function (indexOx, indexOy) {
     const arrayFlagLeftDiagonal = [];
     const max_PoX = 23;
     const max_PoY = 15;
-    //Xác định ô vuông trung tâm đường tréo phải:
+    const lengSquareConsecutive = 3;
     const squareCenter = {
       po_X: indexOx,
       po_Y: indexOy,
       flag: null,
     };
-    //Lấy tên điểm trung tâm:
     const nameSquareCenter =
       nameChirldGameCaro.OVuong_Img +
       "Ox_" +
@@ -625,11 +588,9 @@ var TableCaroInit = cc.Scene.extend({
       squareCenter.po_Y;
     const getEntityCenter = this.getChildByName(nameSquareCenter);
     squareCenter.flag = getEntityCenter?.flagX_O;
-    // console.log("Điển trung tâm đường chéo phải:", squareCenter);
-    const minOxCheck = indexOx - 3; //Vị trí đầu tiên cần kiểm tra.
-    const maxOxCheck = indexOx + 3; //Vị trí cuối cùng cần kiểm tra.
-    var OyRightDiagonalRun = indexOy - 3; //Oy sẽ chạy từ indexOy - 3 => indexOy + 3
-    //Đường chéo trái trục Ox tăng, trục Oy tăng:
+    const minOxCheck = indexOx - lengSquareConsecutive;
+    const maxOxCheck = indexOx + lengSquareConsecutive;
+    var OyRightDiagonalRun = indexOy - lengSquareConsecutive;
     for (
       let indexArrayFlagSquare = minOxCheck;
       indexArrayFlagSquare <= maxOxCheck;
