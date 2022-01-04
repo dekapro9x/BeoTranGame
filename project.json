@@ -22,6 +22,8 @@
         "src/miniGame/caro/MapOVuong.js",
         "src/miniGame/caro/OVuong.js",
 
+        "src/miniGame/luckyNumber/LuckyNumberGame.js",
+
         "src/miniGame/demo/index.js",
         "src/miniGame/demo/LayerClass.js"
     ]

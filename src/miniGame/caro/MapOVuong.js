@@ -7,7 +7,7 @@ var TableCaroInit = cc.Scene.extend({
   init: function () {
     this.imgBacDaBackground();
     this.mapArrayOVuong();
-    // this.introKill();
+    this.introKill();
     //Lắng nghe sự kiện click chuột đặt sự kiện vào ảnh nền bác Đa:"
     const that = this;
     const listenerEvent = cc.EventListener.create({
@@ -39,32 +39,66 @@ var TableCaroInit = cc.Scene.extend({
   //Ảnh giới thiệu 2 đối thủ:
   introKill: function () {
     const getSizeWin = cc.winSize;
-    const bannerKill = cc.Sprite.create(res.MiniOn_png);
-    bannerKill.setName(nameChirldGameCaro.Banner_Kill);
-    bannerKill.setPosition(0, getSizeWin.height / 2);
-    bannerKill.scale = 0.5;
-    this.addChild(bannerKill, 2);
-    const actions1 = cc.spawn(
-      cc.moveBy(1, cc.p(getSizeWin.width - 200, 0)).easing(cc.easeSineOut())
+    //Ảnh Huấn Hoa Hồng:
+    const huanHoaHongImg = cc.Sprite.create(res.ThayHuan_png);
+    huanHoaHongImg.setName(nameChirldGameCaro.Huan_HoaHong_png);
+    huanHoaHongImg.setPosition(0, getSizeWin.height / 2);
+    huanHoaHongImg.scale = 0.58;
+    this.addChild(huanHoaHongImg, 2);
+    //Ảnh cố định mũi tên:
+    const muiTenImg = cc.Sprite.create(res.MuiTen_png);
+    muiTenImg.setName(nameChirldGameCaro.MuiTen_png);
+    muiTenImg.setPosition(getSizeWin.width / 2, getSizeWin.height / 2);
+    muiTenImg.scale = 0.3;
+    this.addChild(muiTenImg, 2);
+    //Ảnh Bác Đa:
+    const bacDaImg = cc.Sprite.create(res.BacDaAvatar_png);
+    bacDaImg.setName(nameChirldGameCaro.MuiTen_png);
+    bacDaImg.setPosition(getSizeWin.width / 2 + 240, getSizeWin.height / 2);
+    bacDaImg.scale = 1.2;
+    this.addChild(bacDaImg, 2);
+    //Ảnh Huấn Hoa Hồng actions:
+    const actionsHH1 = cc.spawn(
+      cc.moveBy(1, cc.p(getSizeWin.width - 260, 0)).easing(cc.easeSineOut())
     );
-    const actions2 = cc.spawn(
+    const actionsHH2 = cc.spawn(
       cc.moveBy(2, cc.p(-getSizeWin.width / 2, 0)).easing(cc.easeSineOut())
     );
-    const actions3 = cc.spawn(
-      cc
-        .moveBy(1.5, cc.p(-getSizeWin.width / 2, getSizeWin.height))
-        .easing(cc.easeSineOut())
+    // const actionsHH3 = cc.spawn(
+    //   cc
+    //     .moveBy(1.5, cc.p(-getSizeWin.width / 2, getSizeWin.height))
+    //     .easing(cc.easeSineOut())
+    // );
+    // const actionsHH4 = actionsHH3.reverse();
+    const actionContinueHuan = cc.sequence(
+      actionsHH1,
+      actionsHH2,
+      // actionsHH3,
+      // actionsHH4
     );
-    const actions4 = actions3.reverse();
-    const actions5 = actions2.clone();
-    const actionContinue = cc.sequence(
-      actions1,
-      actions2,
-      actions3,
-      actions4,
-      actions5
+    huanHoaHongImg.runAction(actionContinueHuan);
+    //Ảnh mũi tên actions:
+    const actionsMT = cc.spawn(
+      cc.scaleBy(0.8, 0.4, 0.4).easing(cc.easeSineOut())
     );
-    bannerKill.runAction(actionContinue);
+    const actionContinueMuiTen = cc.sequence(actionsMT);
+    muiTenImg.runAction(actionContinueMuiTen);
+    //Ảnh Bác Đa actions:
+    const actionsBD1 = cc.spawn(
+      cc.scaleBy(0.2, 1.2, 1.2).easing(cc.easeSineOut())
+    );
+    const actionsBD2 = cc.spawn(
+      cc.scaleBy(0.5, 0.8, 0.8).easing(cc.easeSineOut())
+    );
+    const actionContinueBacDa = cc.repeatForever(
+      cc.sequence(actionsBD1, actionsBD2)
+    );
+    bacDaImg.runAction(actionContinueBacDa);
+    setTimeout(() => {
+      this.removeChild(huanHoaHongImg, true);
+      this.removeChild(muiTenImg, true);
+      this.removeChild(bacDaImg, true);
+    }, 6000);
   },
   mapArrayOVuong: function () {
     //Tạo mảng ô vuông cạnh: 80px*80px.

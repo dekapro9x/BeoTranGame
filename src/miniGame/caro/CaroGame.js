@@ -6,7 +6,8 @@ var nameChirldGameCaro = {
   Start_Game_Btn: "Button_Start",
   OVuong_Img: "O_Vuong_",
   BacDa_Img: "BacDa_Img",
-  Banner_Kill: "Banner_Kill",
+  Huan_HoaHong_png: "Huan_HoaHong",
+  MuiTen_png:"MuiTen"
 };
 var GameCaroInit = cc.Scene.extend({
   ctor: function () {

@@ -74,6 +74,7 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
   },
   //Đặt cờ tại mỗi vị trí bắt được sự kiện click chuột:
   addFlagWhenClickMouse: function (x, y, that) {
+    console.log("Tọa độ chuột:", x, y);
     const listActionsFlag = [];
     const labelNameGame = new cc.LabelTTF();
     labelNameGame.setFontSize(8);
@@ -99,14 +100,40 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
   },
   addImgThienThach: function () {
     const size = cc.winSize;
+    const duration = 1;
+    const durationRotate = 0.1;
     this.ImgThienThach = cc.Sprite.create(res.SaoChoi_png);
-    this.ImgThienThach.x = 873;
-    this.ImgThienThach.y = 535;
-    this.ImgThienThach.setScale(0.75, 0.7);
+    this.ImgThienThach.x = size.width;
+    this.ImgThienThach.y = size.height;
+    this.ImgThienThach.setScale(0.5, 0.55);
     this.ImgThienThach.setAnchorPoint(cc.p(0.5, 0.5));
     this.addChild(this.ImgThienThach, 0);
+    const ThienThach2 = cc.Sprite.create(res.SaoChoi_png);
+    ThienThach2.x = 40;
+    ThienThach2.y = size.height - 40;
+    ThienThach2.setScale(0.5, 0.55);
+    ThienThach2.setAnchorPoint(cc.p(0.5, 0.5));
+    ThienThach2.rotation = 240;
+    this.addChild(ThienThach2, 0);
+    //Hành động thiên thạch 1:
+    const actions1 = cc.spawn(
+      cc.moveBy(duration, cc.p(-size.width, -size.height)).easing(cc.easeSineOut())
+    );
+    const actions2 = cc.rotateTo(durationRotate, 180);
+    const actions3 = cc.moveBy(duration, cc.p(size.width, size.height));
+    const actions4 = cc.rotateTo(durationRotate, 0);
     this.ImgThienThach.runAction(
-      cc.spawn(cc.moveBy(5, cc.p(-size.width / 2 - 150, -size.height / 2)))
+      cc.repeatForever(cc.sequence(actions1, actions2, actions3, actions4))
+    );
+    //Hành động thiên thạch 2:
+    const actions1A = cc.spawn(
+      cc.moveBy(duration, cc.p(size.width, -size.height)).easing(cc.easeSineOut())
+    );
+    const actions2A = cc.rotateTo(durationRotate, 70);
+    const actions3A = cc.moveBy(duration, cc.p(-size.width, size.height));
+    const actions4A = cc.rotateTo(durationRotate, 240);
+    ThienThach2.runAction(
+      cc.repeatForever(cc.sequence(actions1A, actions2A, actions3A, actions4A))
     );
   },
   functionCheckPosition: function (position, size, positionClick) {
@@ -167,7 +194,11 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
       this.Scale_menu_1 = !this.Scale_menu_1;
       this.menuLable_1.setScale(this.Scale_menu_1 ? 1.25 : 1);
       if (this.Scale_menu_1) {
-        this.menuLable_1.runAction(cc.spawn(cc.tintTo(0.5, 255, 0, 0)));
+        const actions2 = cc.director.runScene(new GameLuckyNumberInit());
+        this.menuLable_1.runAction(
+          cc.spawn(cc.tintTo(0.5, 255, 0, 0)),
+          actions2
+        );
       } else {
         this.menuLable_1.runAction(cc.spawn(cc.tintTo(0.5, 255, 125, 0)));
       }
@@ -186,8 +217,8 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
       menuLable.setName("menuLable_" + index);
       menuLable.runAction(
         cc.spawn(
-          cc.moveBy(2.5, cc.p(200, size.height - 50 * (index + 1))),
-          cc.tintTo(2.5, 255, 125, 0)
+          cc.moveBy(0.5, cc.p(200, size.height - 50 * (index + 1))),
+          cc.tintTo(0.25, 255, 125, 0)
         )
       );
       this.addChild(menuLable, 5);
@@ -204,6 +235,6 @@ function AddImgBackGroundMenu(that) {
     scale: 0.5,
     rotation: 180,
   });
-  sprite.runAction(cc.sequence(cc.rotateTo(5, 0), cc.scaleTo(2, 0.7, 0.7)));
+  sprite.runAction(cc.rotateTo(100, 360 * 25));
   that.addChild(sprite, 0);
 }
