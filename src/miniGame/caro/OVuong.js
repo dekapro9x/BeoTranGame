@@ -17,7 +17,7 @@ var OVuongHandleEventGame = cc.Scene.extend({
     this.squareInit.y = poCenter.pOy_center + 40 * indexOy;
     this.squareInit.setScale(scaleSquareInit, scaleSquareInit);
     this.squareInit.setName(nameRepresentChirldOVuong);
-    const actions = cc.rotateBy(8, 90 * 20);
+    const actions = cc.rotateBy(2, 90 * 20);
     this.squareInit.runAction(actions);
     this.addChild(this.squareInit, 0);
   },
@@ -25,7 +25,7 @@ var OVuongHandleEventGame = cc.Scene.extend({
   animationsPopPop: function () {},
   //Thắng game:
   animationsWin: function () {
-    const actions = cc.rotateBy(8, 90 * 20);
+    const actions = cc.rotateBy(5, 90 * 20);
     this.squareFlag.runAction(actions);
   },
   //Kiểm tra ấn chuột vào ô nào:
@@ -67,7 +67,6 @@ var OVuongHandleEventGame = cc.Scene.extend({
     this.clickHere = true;
     father.onChangeFlag();
     this.musicRanDomRingSmile();
-    this.animationsWin();
   },
   //Cờ hiệu O:
   squareFlag_O: function (indexOx, indexOy, father) {

@@ -9,7 +9,7 @@ var TableCaroInit = cc.Scene.extend({
   init: function () {
     this.imgBacDaBackground();
     this.mapArrayOVuong();
-    // this.introKill();
+    this.introKill();
     //Lắng nghe sự kiện click chuột đặt sự kiện vào ảnh nền bác Đa:"
     const that = this;
     const listenerEvent = cc.EventListener.create({
@@ -736,11 +736,16 @@ var TableCaroInit = cc.Scene.extend({
     }
   },
   youWinScreen: function (arrayFourSame) {
-    console.log("%c Bạn thắng cmnr!", "color:red");
-    console.log("Danh sách các điểm trùng cờ:", arrayFourSame);
-    // for (let index = 0; index < arrayFourSame.length; index++) {
-
-    // }
-    // this.removeAllChildren();
+    for (let index = 0; index < arrayFourSame.length; index++) {
+      console.log("Cờ cần kích hoạt :", arrayFourSame[index]);
+      const element = arrayFourSame[index];
+      const po_X = element.po_X;
+      const po_Y = element.po_Y;
+      console.log("po_X", po_X, po_Y);
+      const getName =
+        nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
+      const entitySquareFlagWinGame = this.getChildByName(getName);
+      entitySquareFlagWinGame.animationsWin();
+    }
   },
 });
