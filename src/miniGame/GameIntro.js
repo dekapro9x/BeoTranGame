@@ -7,6 +7,7 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     this.coutClickMount = 0;
     this.Scale_menu_0 = false;
     this.Scale_menu_1 = false;
+    this.Scale_menu_2 = false;
     const that = this;
     this.addImgThienThach();
     //Đặt sự kiện lắng nghe click chuột:
@@ -166,6 +167,10 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
     this.menuLable_1 = this.getChildByName("menuLable_1");
     const menuLable_1_p = this.menuLable_1._position;
     const menuLable_1_Size = this.menuLable_1._contentSize;
+    //Lấy kích thước item menu 3:
+    this.menuLable_2 = this.getChildByName("menuLable_2");
+    const menuLable_2_p = this.menuLable_2._position;
+    const menuLable_2_Size = this.menuLable_2._contentSize;
     //Tính tọa độ và khu vực có thể xử lý actions menu 1:
     if (
       this.functionCheckPosition(
@@ -204,6 +209,26 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
         );
       } else {
         this.menuLable_1.runAction(cc.spawn(cc.tintTo(0.5, 255, 125, 0)));
+      }
+    }
+    //Tọa độ menu 3:
+    if (
+      this.functionCheckPosition(
+        menuLable_2_p,
+        menuLable_2_Size,
+        cc.p(parsedX, parsedY)
+      )
+    ) {
+      this.Scale_menu_2 = !this.Scale_menu_2;
+      this.menuLable_2.setScale(this.Scale_menu_2 ? 1.25 : 1);
+      if (this.Scale_menu_2) {
+        const actions3 = cc.director.runScene(new MapFlappyBirth());
+        this.menuLable_2.runAction(
+          cc.spawn(cc.tintTo(0.5, 255, 0, 0)),
+          actions3
+        );
+      } else {
+        this.menuLable_2.runAction(cc.spawn(cc.tintTo(0.5, 255, 125, 0)));
       }
     }
   },

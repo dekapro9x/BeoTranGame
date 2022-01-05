@@ -16,7 +16,8 @@ var res = {
   BacDaAvatar_png: "res/BacDa.png",
   HuaHoaHong_Intro_mp3: "res/HuanHoaHong-CoLamMoiCoAn.mp3",
   BacDa_Intro_mp3: "res/BacDaDamMayPhatIntro.mp3",
-  ATheLamSao_mp3:"res/ATheA1.mp3"
+  ATheLamSao_mp3:"res/ATheA1.mp3",
+  BackGroundFlappy_png : "res/BackGroundFlappy.png"
 };
 var g_resources = [];
 for (const i in res) {
