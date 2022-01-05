@@ -1,5 +1,6 @@
 var OVuongHandleEventGame = cc.Scene.extend({
   ctor: function (indexOx, indexOy) {
+    console.log("Tâm hình vuông:", indexOx, indexOy);
     this._super();
     this.init(indexOx, indexOy);
     this.clickHere = false;
@@ -7,25 +8,25 @@ var OVuongHandleEventGame = cc.Scene.extend({
   },
   init: function (indexOx, indexOy) {
     //Khởi tạo hình vuông:
-    //Hình vuông xác định kích thước  = 80 *80;
-    const poCenter = { pOx_center: 40, pOy_center: 40 };
+    // Hình vuông xác định kích thước  = 40 *40;
+    const poCenter = { pOx_center: 20, pOy_center: 20 };
     this.squareInit = cc.Sprite.create(res.OVuongTrang_png);
     const nameRepresentChirldOVuong =
       nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
-    this.squareInit.x = poCenter.pOx_center * (indexOx + 1);
-    this.squareInit.y = poCenter.pOy_center * (indexOy + 1);
+    this.squareInit.x = poCenter.pOx_center + 40 * indexOx;
+    this.squareInit.y = poCenter.pOy_center + 40 * indexOy;
     this.squareInit.setScale(scaleSquareInit, scaleSquareInit);
     this.squareInit.setName(nameRepresentChirldOVuong);
-    const actions = cc.rotateBy(8, 90*20);
-    this.squareInit.runAction(actions)
+    const actions = cc.rotateBy(8, 90 * 20);
+    this.squareInit.runAction(actions);
     this.addChild(this.squareInit, 0);
   },
   //Hiệu ứng nổ pháo hoa:
   animationsPopPop: function () {},
   //Thắng game:
   animationsWin: function () {
-    const actions = cc.rotateBy(8, 90*20);
-    this.squareFlag.runAction(actions)
+    const actions = cc.rotateBy(8, 90 * 20);
+    this.squareFlag.runAction(actions);
   },
   //Kiểm tra ấn chuột vào ô nào:
   checkClickHere: function (indexOx, indexOy, flagX_O, father) {
@@ -45,7 +46,7 @@ var OVuongHandleEventGame = cc.Scene.extend({
         father.checkWinGame(indexOx, indexOy);
       } else {
         this.flagX_O = "O_Flag";
-          //Xóa ảnh khởi tạo thay thế ảnh Flag vào:
+        //Xóa ảnh khởi tạo thay thế ảnh Flag vào:
         this.removeChild(oVuongRemove, true);
         this.squareFlag_O(indexOx, indexOy, father);
         father.checkWinGame(indexOx, indexOy);
@@ -54,14 +55,14 @@ var OVuongHandleEventGame = cc.Scene.extend({
   },
   //Cờ hiệu X:
   squareFlag_X: function (indexOx, indexOy, father) {
-    const poCenter = { pOx_center: 40, pOy_center: 40 };
+    const poCenter = { pOx_center: 20, pOy_center: 20 };
     this.squareFlag = cc.Sprite.create(res.OVuongDo_png);
     const nameRepresentChirldOVuong =
       nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
-      this.squareFlag.x = poCenter.pOx_center * (indexOx + 1);
-      this.squareFlag.y = poCenter.pOy_center * (indexOy + 1);
-      this.squareFlag.setName(nameRepresentChirldOVuong);
-      this.squareFlag.setScale(scaleSquareInit, scaleSquareInit);
+    this.squareFlag.x = poCenter.pOx_center + 40 * indexOx;
+    this.squareFlag.y = poCenter.pOy_center + 40 * indexOy;
+    this.squareFlag.setName(nameRepresentChirldOVuong);
+    this.squareFlag.setScale(scaleSquareInit, scaleSquareInit);
     this.addChild(this.squareFlag, 0);
     this.clickHere = true;
     father.onChangeFlag();
@@ -70,14 +71,14 @@ var OVuongHandleEventGame = cc.Scene.extend({
   },
   //Cờ hiệu O:
   squareFlag_O: function (indexOx, indexOy, father) {
-    const poCenter = { pOx_center: 40, pOy_center: 40 };
+    const poCenter = { pOx_center: 20, pOy_center: 20 };
     this.squareFlag = cc.Sprite.create(res.OVuongCam_png);
     const nameRepresentChirldOVuong =
       nameChirldGameCaro.OVuong_Img + "Ox_" + indexOx + "_" + "Oy_" + indexOy;
-      this.squareFlag.x = poCenter.pOx_center * (indexOx + 1);
-      this.squareFlag.y = poCenter.pOy_center * (indexOy + 1);
-      this.squareFlag.setName(nameRepresentChirldOVuong);
-      this.squareFlag.setScale(scaleSquareInit, scaleSquareInit);
+    this.squareFlag.x = poCenter.pOx_center + 40 * indexOx;
+    this.squareFlag.y = poCenter.pOy_center + 40 * indexOy;
+    this.squareFlag.setName(nameRepresentChirldOVuong);
+    this.squareFlag.setScale(scaleSquareInit, scaleSquareInit);
     this.addChild(this.squareFlag, 0);
     this.clickHere = true;
     father.onChangeFlag();

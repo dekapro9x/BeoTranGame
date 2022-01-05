@@ -9,7 +9,7 @@ var TableCaroInit = cc.Scene.extend({
   init: function () {
     this.imgBacDaBackground();
     this.mapArrayOVuong();
-    this.introKill();
+    // this.introKill();
     //Lắng nghe sự kiện click chuột đặt sự kiện vào ảnh nền bác Đa:"
     const that = this;
     const listenerEvent = cc.EventListener.create({
