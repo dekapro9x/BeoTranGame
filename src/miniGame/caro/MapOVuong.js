@@ -433,12 +433,14 @@ var TableCaroInit = cc.Scene.extend({
       //Chặn trên trục Oy:
       if (blockOnOy) {
         if (squareBlockOnOy.flag === squareStart.flag) {
+          arrayFourFlagSame.push(squareBlockOnOy);
           this.youWinScreen(arrayFourFlagSame);
         }
       }
       //Chặn dưới trục Oy:
       if (blockDownOy) {
         if (squareBlockDownOy.flag === squareStartEnd.flag) {
+          arrayFourFlagSame.push(squareBlockDownOy);
           this.youWinScreen(arrayFourFlagSame);
         }
       }
@@ -575,12 +577,14 @@ var TableCaroInit = cc.Scene.extend({
       //Chặn trên trái:
       if (blockLeftOn) {
         if (squareBlockOnLeft.flag === squareStart.flag) {
+          arrayFourFlagSame.push(squareBlockOnLeft);
           this.youWinScreen(arrayFourFlagSame);
         }
       }
       //Chặn dưới trái:
       if (blockLeftDown) {
         if (squareBlockDownLeft.flag === squareStartEnd.flag) {
+          arrayFourFlagSame.push(squareBlockDownLeft);
           this.youWinScreen(arrayFourFlagSame);
         }
       }
@@ -724,24 +728,24 @@ var TableCaroInit = cc.Scene.extend({
       //Chặn trên chéo phải trên:
       if (blockRightDiagonalUp) {
         if (squareBlockRightDiagonalUp.flag === squareStart.flag) {
+          arrayFourFlagSame.push(squareBlockRightDiagonalUp);
           this.youWinScreen(arrayFourFlagSame);
         }
       }
       //Chặn dưới phải dưới:
       if (blockRightDiagonalDown) {
         if (squareBlocRightDiagonalDown.flag === squareStartEnd.flag) {
+          arrayFourFlagSame.push(squareBlocRightDiagonalDown);
           this.youWinScreen(arrayFourFlagSame);
         }
       }
     }
   },
-  youWinScreen: function (arrayFourSame) {
-    for (let index = 0; index < arrayFourSame.length; index++) {
-      console.log("Cờ cần kích hoạt :", arrayFourSame[index]);
-      const element = arrayFourSame[index];
+  youWinScreen: function (arraySameFlag) {
+    for (let index = 0; index < arraySameFlag.length; index++) {
+      const element = arraySameFlag[index];
       const po_X = element.po_X;
       const po_Y = element.po_Y;
-      console.log("po_X", po_X, po_Y);
       const getName =
         nameChirldGameCaro.OVuong_Img + "Ox_" + po_X + "_" + "Oy_" + po_Y;
       const entitySquareFlagWinGame = this.getChildByName(getName);
