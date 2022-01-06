@@ -32,8 +32,9 @@ var MenuIntroSelectGameLayer = cc.Layer.extend({
         {
           event: cc.EventListener.MOUSE,
           onMouseMove: function (event) {
-            if (event.getButton() == cc.EventMouse.BUTTON_LEFT)
-              event.getCurrentTarget().processEvent(event);
+            if (event.getButton() == cc.EventMouse.BUTTON_LEFT) {
+              // event.getCurrentTarget().processEvent(event);
+            }
           },
         },
         this

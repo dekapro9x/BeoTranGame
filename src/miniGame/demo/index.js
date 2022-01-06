@@ -7,7 +7,6 @@ var DemoTest = cc.Scene.extend({
     this.addChild(LayerEventHandleDemo, 0);
     this.PlayGameText = new TextPlayRun();
     this.addChild(this.PlayGameText, 0);
-
   },
   //Thay đổi ngữ cảnh:
   changeSceneOne: function () {
@@ -25,8 +24,9 @@ var DemoTest = cc.Scene.extend({
           event: cc.EventListener.MOUSE,
           onMouseMove: function (event) {
             // console.log("Nghe chuột.... ", event);
-            if (event.getButton() == cc.EventMouse.BUTTON_LEFT)
+            if (event.getButton() == cc.EventMouse.BUTTON_LEFT) {
               event.getCurrentTarget().processEvent(event);
+            }
           },
         },
         this

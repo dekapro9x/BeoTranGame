@@ -10,8 +10,8 @@ var Birth = cc.Scene.extend({
           event: cc.EventListener.MOUSE,
           onMouseMove: function (event) {
             // console.log("Nghe chuột.... ", event);
-            if (event.getButton() == cc.EventMouse.BUTTON_LEFT)
-              event.getCurrentTarget().processEvent(event);
+            if (event.getButton() == cc.EventMouse.BUTTON_LEFT) {
+            }
           },
         },
         this
