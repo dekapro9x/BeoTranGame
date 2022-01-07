@@ -24,9 +24,7 @@
 
         "src/miniGame/luckyNumber/LuckyNumberGame.js",
 
-        "src/miniGame/FlappiBirth/IntroFlappy.js",
-        "src/miniGame/FlappiBirth/Birth.js",
-        "src/miniGame/FlappiBirth/Map.js",
+        "src/miniGame/FlappiBirth/index.js",
 
         "src/miniGame/demo/index.js",
         "src/miniGame/demo/LayerClass.js"

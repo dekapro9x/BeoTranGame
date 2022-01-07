@@ -16,9 +16,11 @@ var res = {
   BacDaAvatar_png: "res/BacDa.png",
   HuaHoaHong_Intro_mp3: "res/HuanHoaHong-CoLamMoiCoAn.mp3",
   BacDa_Intro_mp3: "res/BacDaDamMayPhatIntro.mp3",
-  ATheLamSao_mp3:"res/ATheA1.mp3",
-  BackGroundFlappy_png : "res/BackGroundFlappy.png",
-  Galaxy_Img:"res/Galaxy.png"
+  ATheLamSao_mp3: "res/ATheA1.mp3",
+  BackGroundFlappy_png: "res/BackGroundFlappy.png",
+  Galaxy_Img: "res/Galaxy.png",
+  Figure_Flappy_Bird_Img: "res/Drones.png",
+  Bullet_Img : "res/SaoChoi1.png" 
 };
 var g_resources = [];
 for (const i in res) {
